@@ -7,7 +7,6 @@ var express = require('express')
   , app = express()
   , routes = require('./routes')
   , twitter = require('ntwitter')
-  //, tuiter = require('tuiter')
   , user = require('./routes/user')
   , http = require('http')
   , path = require('path')
@@ -134,10 +133,9 @@ app.configure(function(){
 	app.use(express.cookieParser("a"));
 	app.use(express.bodyParser());
 	app.use(express.methodOverride());
-	app.use(express.cookieParser('your secret here'));
 	app.use(express.session({ secret: "a", store: sessionStore, cookie: { maxAge: 1000 * 60 * 60 * 7 * 1000 ,httpOnly: false, secure: false}}));
 	app.use(passport.initialize());
-	//app.use(passport.session());
+	app.use(passport.session());
 	app.use(app.router);
 	app.use(require('stylus').middleware(__dirname + '/public'));
 	app.use(express.static(path.join(__dirname, 'public')));
@@ -147,8 +145,8 @@ app.configure('development', function(){
 	app.use(express.errorHandler());
 });
 
-app.get('/',  function(req, res){
-	if (req.isAuthenticated()) { 
+app.get('/', function(req, res){
+	if (req.isAuthenticated()) {
 		res.render('main');
 	}else{
 		res.render('index');
@@ -165,7 +163,10 @@ app.get('/following', function(req,res){
 		});
 	});
 });
-
+app.get('/logout', function(req, res){
+	req.logout();
+	res.redirect('/');
+});
 app.get('/friends-on-chat', function(req,res){
 	check(req, function(twit){
 		twit.getFriendsIds(req.session.passport.user, function(err, data){
@@ -187,7 +188,7 @@ app.get('/friends-on-chat', function(req,res){
 // socket io
 
 io.of('/chat').on('connection', function(socket){
-	console.log(socket.handshake.headers);
+	//console.log(socket.handshake.headers);
 });
 
 
