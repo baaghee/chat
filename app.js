@@ -84,7 +84,7 @@ passport.use(new TwitterStrategy({
 				user.photos = profile.photos;
 				user.raw = profile._json;
 				user.token = token;
-				user.tokenSecret = profile.tokenSecret;
+				user.tokenSecret = tokenSecret;
 				user.save(function(err, user){
 					if(err) throw err;
 					done(null, user);
@@ -170,12 +170,17 @@ app.get('/logout', function(req, res){
 app.get('/friends-on-chat', function(req,res){
 	check(req, function(twit){
 		twit.getFriendsIds(req.session.passport.user, function(err, data){
+			if(err) throw err;
 			//find whats more in length
 			var common = [];
 			for(var i=0; i<data.length; i++){
 				if(registered_ids.indexOf(data[i]) !== -1){
 					common.push(data[i]);
 				}
+			}
+			if(common.length == 0){
+				//end request
+				return res.json({});
 			}
 			twit.lookupUsers(common, function(err, data){
 				if(err) throw err;
