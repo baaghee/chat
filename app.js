@@ -147,7 +147,13 @@ app.configure('development', function(){
 	app.use(express.errorHandler());
 });
 
-app.get('/', routes.index);
+app.get('/',  function(req, res){
+	if (req.isAuthenticated()) { 
+		res.render('main');
+	}else{
+		res.render('index');
+	}
+});
 app.get('/auth/twitter', passport.authenticate('twitter'));
 app.get('/auth/twitter/callback', 
   passport.authenticate('twitter', { successRedirect: '/',
