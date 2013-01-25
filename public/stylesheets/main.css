@@ -1,0 +1,153 @@
+body {
+	background: #272727;
+	margin-top: 2px;
+}
+
+#main-container {
+	position: fixed;
+	width: 100%;
+	height: 100%;	
+}
+
+#window-container {
+	position: relative;
+	width: 100%;
+	height: 92%;
+	background: #F9F9F9;
+}
+
+#contacts-list {
+	position: absolute;
+	left: 0;
+	height: 100%;
+	width: 22%;
+	border-right: 1px solid #eee;
+	overflow: auto;
+}
+
+#chat-window {
+	position: absolute;
+	padding: 10px;
+	left: 22.1%;
+	width: 43.4%;
+	height: 85%;
+	background: white;
+	border-right: 1px solid #eee;
+	padding-top: 60px;
+}
+
+#chat-window-container {
+	position: absolute;
+	width: 97%;
+	overflow: auto;
+	height: 79%;
+}
+
+#chat-window-header {
+	position: fixed;
+	width: 44.8%;
+	left: 22.1%;
+	top: 2px;
+	border-bottom: 1px solid #eee;
+}
+
+#chat-input {
+	position: absolute;
+	bottom: 0;
+	left: 22.1%;
+	width: 44.8%;
+	height: 100px;
+	background: white;
+	border-top: 1px solid #eee;
+	border-right: 1px solid #eee;
+}
+
+#tweet-feed {
+	position: absolute;
+	width: 33%;
+	height: 100%;
+	right: 0;
+}
+
+.chat-bubble-arrow {
+  border-color: transparent #F5F5F5 transparent transparent;
+  border-style: solid;
+  border-width: 10px;
+  height:0;
+  width:0;
+  position:absolute;
+  bottom: 20px;
+  left:-20px;
+}
+
+.feed-item {
+	position: relative;
+	margin: 10px;
+	padding: 5px;
+	background: white;
+}
+
+.feed-item img {
+	margin-right: 10px;
+	margin-top: 5px;
+}
+
+.feed-item a {
+	font-weight: bold;
+	font-size: 12px;
+}
+
+.feed-item p {
+	font-size: 12px;
+	margin-bottom: 0;
+}
+
+.chat-item {
+	position: relative;
+	margin: 10px;
+	padding: 5px;
+	background: #F5F5F5;
+	margin-top: 10px;
+}
+
+.chat-item img {
+	margin-right: 10px;
+	margin-top: 5px;
+}
+
+.chat-item a {
+	font-weight: bold;
+	font-size: 12px;
+}
+
+.chat-item p {
+	font-size: 12px;
+	margin-bottom: 0;
+}
+
+.user-list-item {
+	font-size: 12px;
+	padding: 5px;
+	color: #999;
+	border-bottom: 1px solid #eee;
+}
+
+.user-list-item:hover {
+	background: rgb(253,253,253);
+	cursor: pointer;
+}
+
+.user-list-item a:link, .user-list-item a:visited {
+	color: #666!important;
+	font-weight: bold;
+}
+
+.active-user, .active-user:hover {
+	background: #008DDE;
+	border-right: white;
+	color: white;
+}
+
+.active-user a:link, .active-user a:visited {
+	color: white!important;
+}

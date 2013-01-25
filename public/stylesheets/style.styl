@@ -1,5 +1,68 @@
-body
-  padding: 50px
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif
-a
-  color: #00B7FF
+body {
+	margin-top: 3px;
+}
+
+#main-container {
+	position: fixed;
+	width: 100%;
+	height: 90%;	
+}
+
+#window-container {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	background: whiteSmoke;
+}
+
+#contacts-list {
+	position: absolute;
+	left: 0;
+	height: 100%;
+	width: 22%;
+	border-right: 1px solid #eee;
+	overflow: auto;
+}
+
+#chat-window {
+	position: absolute;
+	left: 22.1%;
+	width: 45%;
+	height: 100%;
+	background: white;
+}
+
+#tweet-feed {
+	position: absolute;
+	width: 33%;
+	height: 100%;
+	right: 0;
+	background: white;
+}
+
+.user-list-item {
+	font-size: 12px;
+	padding: 5px;
+	color: #999;
+	border-bottom: 1px solid #eee;
+}
+
+.user-list-item:hover {
+	background: rgb(253,253,253);
+	cursor: pointer;
+}
+
+.user-list-item a:link, .user-list-item a:visited {
+	padding-top: 20px;
+	color: #666!important;
+	font-weight: bold;
+}
+
+.active-user, .active-user:hover {
+	background: #008DDE;
+	border-right: white;
+	color: white;
+}
+
+.active-user a:link, .active-user a:visited {
+	color: white!important;

@@ -1,79 +1,167 @@
 extends layout
 
 block content
-	header.hide.navbar.navbar-fixed-top.navbar-inverse
-		nav.navbar-inner
-			div.container
-				ul.nav
-					li
-						a(href='#') Link
-	section.container#main-container
-		div.span8.pull-left#main-section
-			div#contact-list
-				div#contact-menu dd
-				div.media.user-list-item
-					a.pull-left(href='#')
-						img.media-object(data-src='holder.js/64x64')
-					div.media
+		section#main-container
+			#window-container
+				#contacts-list
+					.media.user-list-item
 						a.pull-left(href='#')
-							img.media-object(data-src='holder.js/64x64',alt='64x64',style='width: 64px; height: 64px;',src='https://si0.twimg.com/profile_images/1478919095/converse_normal.png')
-						div.media-body
+							img.media-object(data-src='holder.js/64x64')
+						.media
+							a.pull-left(href='#')
+								img.media-object(data-src='holder.js/64x64', alt='64x64', style='width: 64px; height: 64px;', src='https://si0.twimg.com/profile_images/1478919095/converse_normal.png')
+						.media-body
 							a.media-heading(href='#') Media heading
 							br
 							| @username
-				div.media.user-list-item
-					a.pull-left(href='#')
-						img.media-object(data-src='holder.js/64x64')
-					div.media
+						br.clear
+					.media.user-list-item
 						a.pull-left(href='#')
-							img.media-object(data-src='holder.js/64x64',alt='64x64',style='width: 64px; height: 64px;',src='https://si0.twimg.com/profile_images/1786794974/podcast_normal.png')
-						div.media-body
+							img.media-object(data-src='holder.js/64x64')
+						.media
+							a.pull-left(href='#')
+								img.media-object(data-src='holder.js/64x64', alt='64x64', style='width: 64px; height: 64px;', src='https://si0.twimg.com/profile_images/1478919095/converse_normal.png')
+						.media-body
 							a.media-heading(href='#') Media heading
 							br
-							| @another_user
-				div.media.user-list-item.active-user
-					a.pull-left(href='#')
-						img.media-object(data-src='holder.js/64x64')
-					div.media
+							| @username
+						br.clear
+				#chat-window
+					div#chat-window-header
+						h3.pull-left Cog
+						button.btn.pull-right add
+					div#chat-window-container
+						.media.chat-item
+							<div class="chat-bubble-arrow"></div>
+							a.pull-left(href='#')
+								img.media-object(data-src='holder.js/64x64')
+							.media
+								a.pull-left(href='#')
+									img.media-object(data-src='holder.js/64x64', alt='64x64', src='https://si0.twimg.com/profile_images/3021682822/6542ee4b553546c2fab6a88e0ffe78c3_normal.jpeg')
+							.media-body
+								a.media-heading(href='#') Media heading
+								br
+								p Bagaavaaiy ma kuvverikuran #MDP ge Gaumee bodu Hingaalun #mvprotest pic.twitter.com/Kz82WWNP
+						.media.chat-item
+							<div class="chat-bubble-arrow"></div>
+							a.pull-left(href='#')
+								img.media-object(data-src='holder.js/64x64')
+							.media
+								a.pull-left(href='#')
+									img.media-object(data-src='holder.js/64x64', alt='64x64', src='https://si0.twimg.com/profile_images/3021682822/6542ee4b553546c2fab6a88e0ffe78c3_normal.jpeg')
+							.media-body
+								a.media-heading(href='#') Media heading
+								br
+								p Bagaavaaiy ma kuvverikuran #MDP ge Gaumee bodu Hingaalun #mvprotest pic.twitter.com/Kz82WWNP
+						.media.chat-item
+							<div class="chat-bubble-arrow"></div>
+							a.pull-left(href='#')
+								img.media-object(data-src='holder.js/64x64')
+							.media
+								a.pull-left(href='#')
+									img.media-object(data-src='holder.js/64x64', alt='64x64', src='https://si0.twimg.com/profile_images/3021682822/6542ee4b553546c2fab6a88e0ffe78c3_normal.jpeg')
+							.media-body
+								a.media-heading(href='#') Media heading
+								br
+								p Bagaavaaiy ma kuvverikuran #MDP ge Gaumee bodu Hingaalun #mvprotest pic.twitter.com/Kz82WWNP
+						.media.chat-item
+							<div class="chat-bubble-arrow"></div>
+							a.pull-left(href='#')
+								img.media-object(data-src='holder.js/64x64')
+							.media
+								a.pull-left(href='#')
+									img.media-object(data-src='holder.js/64x64', alt='64x64', src='https://si0.twimg.com/profile_images/3021682822/6542ee4b553546c2fab6a88e0ffe78c3_normal.jpeg')
+							.media-body
+								a.media-heading(href='#') Media heading
+								br
+								p Bagaavaaiy ma kuvverikuran #MDP ge Gaumee bodu Hingaalun #mvprotest pic.twitter.com/Kz82WWNP
+						.media.chat-item
+							<div class="chat-bubble-arrow"></div>
+							a.pull-left(href='#')
+								img.media-object(data-src='holder.js/64x64')
+							.media
+								a.pull-left(href='#')
+									img.media-object(data-src='holder.js/64x64', alt='64x64', src='https://si0.twimg.com/profile_images/3021682822/6542ee4b553546c2fab6a88e0ffe78c3_normal.jpeg')
+							.media-body
+								a.media-heading(href='#') Media heading
+								br
+								p Bagaavaaiy ma kuvverikuran #MDP ge Gaumee bodu Hingaalun #mvprotest pic.twitter.com/Kz82WWNP
+						.media.chat-item
+							<div class="chat-bubble-arrow"></div>
+							a.pull-left(href='#')
+								img.media-object(data-src='holder.js/64x64')
+							.media
+								a.pull-left(href='#')
+									img.media-object(data-src='holder.js/64x64', alt='64x64', src='https://si0.twimg.com/profile_images/3021682822/6542ee4b553546c2fab6a88e0ffe78c3_normal.jpeg')
+							.media-body
+								a.media-heading(href='#') Media heading
+								br
+								p Bagaavaaiy ma kuvverikuran #MDP ge Gaumee bodu Hingaalun #mvprotest pic.twitter.com/Kz82WWNP
+						.media.chat-item
+							<div class="chat-bubble-arrow"></div>
+							a.pull-left(href='#')
+								img.media-object(data-src='holder.js/64x64')
+							.media
+								a.pull-left(href='#')
+									img.media-object(data-src='holder.js/64x64', alt='64x64', src='https://si0.twimg.com/profile_images/3021682822/6542ee4b553546c2fab6a88e0ffe78c3_normal.jpeg')
+							.media-body
+								a.media-heading(href='#') Media heading
+								br
+								p Bagaavaaiy ma kuvverikuran #MDP ge Gaumee bodu Hingaalun #mvprotest pic.twitter.com/Kz82WWNP
+						.media.chat-item
+							<div class="chat-bubble-arrow"></div>
+							a.pull-left(href='#')
+								img.media-object(data-src='holder.js/64x64')
+							.media
+								a.pull-left(href='#')
+									img.media-object(data-src='holder.js/64x64', alt='64x64', src='https://si0.twimg.com/profile_images/3021682822/6542ee4b553546c2fab6a88e0ffe78c3_normal.jpeg')
+							.media-body
+								a.media-heading(href='#') Media heading
+								br
+								p Bagaavaaiy ma kuvverikuran #MDP ge Gaumee bodu Hingaalun #mvprotest pic.twitter.com/Kz82WWNP
+						.media.chat-item
+							<div class="chat-bubble-arrow"></div>
+							a.pull-left(href='#')
+								img.media-object(data-src='holder.js/64x64')
+							.media
+								a.pull-left(href='#')
+									img.media-object(data-src='holder.js/64x64', alt='64x64', src='https://si0.twimg.com/profile_images/3021682822/6542ee4b553546c2fab6a88e0ffe78c3_normal.jpeg')
+							.media-body
+								a.media-heading(href='#') Media heading
+								br
+								p Bagaavaaiy ma kuvverikuran #MDP ge Gaumee bodu Hingaalun #mvprotest pic.twitter.com/Kz82WWNP
+						.media.chat-item
+							<div class="chat-bubble-arrow"></div>
+							a.pull-left(href='#')
+								img.media-object(data-src='holder.js/64x64')
+							.media
+								a.pull-left(href='#')
+									img.media-object(data-src='holder.js/64x64', alt='64x64', src='https://si0.twimg.com/profile_images/3021682822/6542ee4b553546c2fab6a88e0ffe78c3_normal.jpeg')
+							.media-body
+								a.media-heading(href='#') Media heading
+								br
+								p Bagaavaaiy ma kuvverikuran #MDP ge Gaumee bodu Hingaalun #mvprotest pic.twitter.com/Kz82WWNP
+				#chat-input
+				#tweet-feed
+					h3 Twitter Feed
+					.media.feed-item
 						a.pull-left(href='#')
-							img.media-object(data-src='holder.js/64x64',alt='64x64',style='width: 64px; height: 64px;',src='img/placeholder.jpg')
-						div.media-body
+							img.media-object(data-src='holder.js/64x64')
+						.media
+							a.pull-left(href='#')
+								img.media-object(data-src='holder.js/64x64', alt='64x64', src='https://si0.twimg.com/profile_images/3021682822/6542ee4b553546c2fab6a88e0ffe78c3_normal.jpeg')
+						.media-body
 							a.media-heading(href='#') Media heading
 							br
-							| @another_user
-				div.media.user-list-item.offline-user
-					a.pull-left(href='#')
-						img.media-object(data-src='holder.js/64x64')
-					div.media
+							p Bagaavaaiy ma kuvverikuran #MDP ge Gaumee bodu Hingaalun #mvprotest pic.twitter.com/Kz82WWNP
+					.media.feed-item
 						a.pull-left(href='#')
-							img.media-object(data-src='holder.js/64x64',alt='64x64',style='width: 64px; height: 64px;',src='https://si0.twimg.com/profile_images/2655072766/e25c6e61f7bce644f6657340f00e2c09_normal.jpeg')
-						div.media-body
+							img.media-object(data-src='holder.js/64x64')
+						.media
+							a.pull-left(href='#')
+								img.media-object(data-src='holder.js/64x64', alt='64x64', src='https://si0.twimg.com/profile_images/3021682822/6542ee4b553546c2fab6a88e0ffe78c3_normal.jpeg')
+						.media-body
 							a.media-heading(href='#') Media heading
 							br
-							| @another_user
-				div.media.user-list-item.offline-user
-					a.pull-left(href='#')
-						img.media-object(data-src='holder.js/64x64')
-					div.media
-						a.pull-left(href='#')
-							img.media-object(data-src='holder.js/64x64',alt='64x64',style='width: 64px; height: 64px;',src='https://si0.twimg.com/profile_images/2960830833/d23fb8492e0832d7204476bf37854942_normal.png')
-						div.media-body
-							a.media-heading(href='#') Media heading
-							br
-							| @another_user
-			div#chat-window
-				div#chat-head
-				div.media.user-list-item
-					a.pull-left(href='#')
-						img.media-object(data-src='holder.js/64x64')
-					div.media
-						a.pull-left(href='#')
-							img.media-object(data-src='holder.js/64x64',alt='64x64',style='width: 32px; height: 32px;',src='img/placeholder.jpg')
-						div.media-body
-							a.media-heading(href='#') Media heading
-							br
-							| @another_user
-				div#chat-input
-					input(type='text')
-		aside.span4.pull-right#sidebar
-			div#timeline-head H
+							p Bagaavaaiy ma kuvverikuran #MDP ge Gaumee bodu Hingaalun #mvprotest pic.twitter.com/Kz82WWNP
+
