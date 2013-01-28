@@ -4,6 +4,7 @@
  */
 
 var express = require('express')
+  , domain = require('domain')
   , app = express()
   , routes = require('./routes')
   , twitter = require('ntwitter')
@@ -17,6 +18,7 @@ var express = require('express')
   , io = require('socket.io')
   , io = io.listen(server)
   , passportSocketIo = require("passport.socketio")
+  , connectDomain = require('connect-domain')
 
 //session
 var sessionStore = new MongoStore({db:'chat'});
@@ -33,9 +35,6 @@ io.set("authorization", passportSocketIo.authorize({
 		accept(null, true);
 	}
 }));
-io.set("authorization-", function(){
-	console.log(arguments);
-});
 
 settings = require('./settings');
 
@@ -128,6 +127,7 @@ app.configure(function(){
 	app.set('port', process.env.PORT || 5002);
 	app.set('views', __dirname + '/views');
 	app.set('view engine', 'jade');
+	//app.use(connectDomain());
 	app.use(express.favicon());
 	app.use(express.logger('dev'));
 	app.use(express.cookieParser("a"));
@@ -139,6 +139,7 @@ app.configure(function(){
 	app.use(app.router);
 	app.use(require('stylus').middleware(__dirname + '/public'));
 	app.use(express.static(path.join(__dirname, 'public')));
+	
 });
 
 app.configure('development', function(){
@@ -168,32 +169,54 @@ app.get('/logout', function(req, res){
 	res.redirect('/');
 });
 app.get('/friends-on-chat', function(req,res){
-	check(req, function(twit){
-		twit.getFriendsIds(req.session.passport.user, function(err, data){
-			if(err) throw err;
-			//find whats more in length
-			var common = [];
-			for(var i=0; i<data.length; i++){
-				if(registered_ids.indexOf(data[i]) !== -1){
-					common.push(data[i]);
-				}
-			}
-			if(common.length == 0){
-				//end request
-				return res.json({});
-			}
-			twit.lookupUsers(common, function(err, data){
-				if(err) throw err;
-				res.json(data);
+		check(req, function(twit){
+			var d = domain.create();
+			d.run(function(){
+				twit.getFriendsIds(req.session.passport.user, function(err, data){
+					if(err) throw err;
+					//find whats more in length
+					if(!data){
+						throw Error("Data not fetch");
+					}
+					var common = [];
+					for(var i=0; i<data.length; i++){
+						if(registered_ids.indexOf(data[i]) !== -1){
+							common.push(data[i]);
+						}
+					}
+					if(common.length == 0){
+						//end request
+						return res.json({});
+					}
+					twit.lookupUsers(common, function(err, data){
+						if(err) throw err;
+						res.json(data);
+					});
+				});
+			});
+			d.on('error', function(err){
+				console.log(err);
+				res.end("something happened");
 			});
 		});
-	});
-});
 
+});
 // socket io
 
-io.of('/chat').on('connection', function(socket){
-	//console.log(socket.handshake.headers);
+
+var chat = io.of('/chat').on('connection', function(socket){
+	socket.on('message', function(data){
+		var user = JSON.parse(JSON.stringify(socket.handshake.user));
+		var f = formated_data = {
+			msg:data.msg,
+			user:{
+				name:user.username,
+				photo:user.raw.profile_image_url
+			}
+		};
+		chat.emit('incoming', f);
+		//socket.emit('incoming', socket.handshake);
+	});
 });
 
 

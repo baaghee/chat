@@ -18,6 +18,7 @@
     "twitter": "~0.1.18",
     "tuiter": "~0.2.7",
     "ntwitter": "~0.5.0",
-    "passport.socketio": "0.0.5"
+    "passport.socketio": "0.0.5",
+    "connect-domain": "~0.4.1"
   }
 }
