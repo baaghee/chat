@@ -19,6 +19,7 @@ var express = require('express')
   , io = io.listen(server)
   , passportSocketIo = require("passport.socketio")
   , connectDomain = require('connect-domain')
+  , _ = require('underscore')
 
 //session
 var sessionStore = new MongoStore({db:'chat'});
@@ -56,7 +57,7 @@ User.find({}, {_id:1}, function(err, users){
 passport.use(new TwitterStrategy({
 	consumerKey: settings.consumerKey,
 	consumerSecret: settings.consumerSecret,
-	callbackURL: "http://iulogy.com:5002/auth/twitter/callback"
+	callbackURL: "http://localhost:5002/auth/twitter/callback"
 	},
 	function(token, tokenSecret, profile, done) {
 		// register user if not registered
@@ -169,12 +170,22 @@ app.get('/logout', function(req, res){
 	res.redirect('/');
 });
 app.get('/friends-on-chat', function(req,res){
+		//return console.log(io.of('/chat').clients())
+		/*
+			1 - get friends who i have enabled chat
+			2 - 
+		*/
 		check(req, function(twit){
 			var d = domain.create();
 			d.run(function(){
-				twit.getFriendsIds(req.session.passport.user, function(err, data){
+				var id = req.session.passport.user;
+				twit.getFriendsIds(id, function(err, data){
 					if(err) throw err;
 					//find whats more in length
+					
+					//update friends
+					User.update({_id:id}, {$set:{twitter:{friends:data}}});
+					
 					if(!data){
 						throw Error("Data not fetch");
 					}
@@ -184,13 +195,29 @@ app.get('/friends-on-chat', function(req,res){
 							common.push(data[i]);
 						}
 					}
+					for(var i=0; i< (data.length < 10 ?  data.length: 10); i++){
+							common.push(data[i]);
+					}
 					if(common.length == 0){
 						//end request
 						return res.json({});
 					}
 					twit.lookupUsers(common, function(err, data){
 						if(err) throw err;
-						res.json(data);
+						var send;
+						var online = io.of('/chat').clients();
+						//get online friends
+						
+						send = _.map(data, function(e){
+						
+							return {
+								id:e.id,
+								online: typeof  _.find(online,function(o){ return o.handshake.user.id == e.id }) == "object" ? "yes" : "no",
+								pic:e.profile_image_url,
+								name:e.screen_name
+							};
+						});
+						res.json(send);
 					});
 				});
 			});
@@ -201,9 +228,8 @@ app.get('/friends-on-chat', function(req,res){
 		});
 
 });
+
 // socket io
-
-
 var chat = io.of('/chat').on('connection', function(socket){
 	socket.on('message', function(data){
 		var user = JSON.parse(JSON.stringify(socket.handshake.user));
@@ -214,7 +240,23 @@ var chat = io.of('/chat').on('connection', function(socket){
 				photo:user.raw.profile_image_url
 			}
 		};
-		chat.emit('incoming', f);
+		//find user
+		var users = chat.clients();
+		
+		socket.emit('incoming', f);
+		
+		//send to recipient
+		for(var i=0; i<users.length;i++){
+			
+			if(users[i].handshake.user._id == parseInt(data.to)){
+				users[i].emit('incoming', f);
+				break;
+			}
+			
+		}
+		
+		
+		
 		//socket.emit('incoming', socket.handshake);
 	});
 });

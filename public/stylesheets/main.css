@@ -3,6 +3,24 @@ body {
 	margin-top: 2px;
 }
 
+.btn, .dropdown-menu {
+	border-radius: 0!important;
+}
+
+.breadcrumb {
+	background: none;
+	margin: 0 0 0;
+	padding : 0px 5px;
+}
+
+.breadcrumb a {
+	font-weight: normal!important;
+}
+
+.breadcrumb li {
+	margin-right: 15px;
+}
+
 #main-container {
 	position: fixed;
 	width: 100%;
@@ -16,7 +34,12 @@ body {
 	background: #F9F9F9;
 }
 
+#contact-container {
+	position: relative;
+}
+
 #contacts-list {
+	background: #rgb(254,254,254);
 	position: absolute;
 	left: 0;
 	height: 100%;
@@ -30,7 +53,7 @@ body {
 	padding: 10px;
 	left: 22.1%;
 	width: 43.4%;
-	height: 85%;
+	height: 80%;
 	background: white;
 	border-right: 1px solid #eee;
 	padding-top: 60px;
@@ -45,10 +68,26 @@ body {
 
 #chat-window-header {
 	position: fixed;
+	z-index: 4000;
 	width: 44.8%;
 	left: 22.1%;
 	top: 2px;
 	border-bottom: 1px solid #eee;
+}
+
+#tweet-header h3 {
+	margin-left: 10px;
+	font-size: 16px;
+}
+
+#window-menu {
+	margin-right: 20px;
+	margin-top: 15px;
+}
+
+#tweet-menu {
+	margin-right: 20px;
+	margin-top: 15px;
 }
 
 #chat-input {
@@ -69,6 +108,20 @@ body {
 	right: 0;
 }
 
+#tweet-filter.dropdown-menu {
+	right: 0px!important;
+	left: -120%;
+}
+
+#tweet-header {
+	width: 100%;
+	position: absolute;
+}
+
+#media-feed-container {
+	margin-top: 60px;
+}
+
 .chat-bubble-arrow {
   border-color: transparent #F5F5F5 transparent transparent;
   border-style: solid;
@@ -82,8 +135,10 @@ body {
 
 .feed-item {
 	position: relative;
+	border: 1px solid #eee;
+	box-shadow: 0 1px 0 rgba(101,101,101,.1);
 	margin: 10px;
-	padding: 5px;
+	padding-top: 10px;
 	background: white;
 }
 
@@ -128,8 +183,17 @@ body {
 .user-list-item {
 	font-size: 12px;
 	padding: 5px;
+	padding-bottom: 10px;
 	color: #999;
 	border-bottom: 1px solid #eee;
+}
+
+.user-invisible-link {
+	display: none;
+}
+
+.user-list-item img {
+	margin-right: 10px;
 }
 
 .user-list-item:hover {
@@ -163,4 +227,79 @@ body {
 	height: 60px;
 	margin: 10px;
 	border: 1px solid #eee;
+}
+
+.chat-item-date {
+	color: #bbb;
+	font-size: 12px;
+	margin-right: 10px;
+}
+
+#contacts-list-footer {
+	position: fixed;
+	bottom: 7.7%;
+	width: 22%;
+	border-top: 1px solid #eee;
+	padding: 10px;
+	background-image: -webkit-linear-gradient(top,#f5f5f5,#f1f1f1); 
+}
+
+.media-foot {
+	border-top: 1px solid #eee;
+	background-image: -webkit-linear-gradient(top,white,#f7f7f7);
+	padding: 5px;
+	margin-top: 10px;
+}
+
+#contacts-filter {
+	width: 92%;
+	background: rgba(250,250,250, .9);
+	border: 1px solid #ddd;
+}
+
+#media-feed-container {
+	height: 91%;
+	overflow: auto;
+}
+
+#contact-list-options {
+	border-right: 1px solid #e9e9e9;
+	height: 60px;
+	border-bottom: 1px solid #eee;
+}
+
+a.button-twitter {
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    box-shadow: 0 1px 1px #999;
+    color: #fff;
+    display: inline-block;
+    font-size: 20px;
+    margin: 0 20px 20px 0;
+    padding: 20px 35px;
+    text-align: center;
+    width: 300px;
+}
+
+a.button-twitter {
+    background-color: #0081ce; /* fallback color */
+    background: -moz-linear-gradient(top, #00aced, #0081ce);
+    background: -ms-linear-gradient(top, #00aced, #0081ce);
+    background: -webkit-linear-gradient(top, #00aced, #0081ce);
+    border: 1px solid #0081ce;
+    text-shadow: 0 -1px -1px #005ea3;
+}
+
+a.button-twitter:hover {
+    background: -moz-linear-gradient(top, #0081ce, #00aced);
+    background: -ms-linear-gradient(top, #0081ce, #00aced);
+    background: -webkit-linear-gradient(top, #0081ce, #00aced);
+    text-decoration: none;
+}
+
+#login {
+	width: 375px;
+	margin: auto;
+	margin-top: 200px;
 }

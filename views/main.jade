@@ -4,55 +4,96 @@ block content
 		section#main-container
 			#window-container
 				#contacts-list
-					.media.user-list-item
-						a.pull-left(href='#')
-							img.media-object(data-src='holder.js/64x64')
-						.media
-							a.pull-left(href='#')
-								img.media-object(data-src='holder.js/64x64', alt='64x64', style='width: 64px; height: 64px;', src='https://si0.twimg.com/profile_images/1478919095/converse_normal.png')
-						.media-body
-							a.media-heading(href='#') Media heading
-							br
-							| @username
-						br.clear
-					.media.user-list-item
-						a.pull-left(href='#')
-							img.media-object(data-src='holder.js/64x64')
-						.media
-							a.pull-left(href='#')
-								img.media-object(data-src='holder.js/64x64', alt='64x64', style='width: 64px; height: 64px;', src='https://si0.twimg.com/profile_images/1478919095/converse_normal.png')
-						.media-body
-							a.media-heading(href='#') Media heading
-							br
-							| @username
-						br.clear
+					#contact-container
+						#contact-list-options
+							User
+						div#contacts-list-footer
+							input#contacts-filter (type="text" placeholder="Type something…")
 				#chat-window
 					div#chat-window-header
 						h3.pull-left Cog
-						button.btn.pull-right add
+						#window-menu.pull-right
+							.btn-group
+								button.btn.dropdown-toggle(data-toggle='dropdown')
+									|	Actions 
+									span.caret
+								ul.dropdown-menu
+									li
+										a(href='#') Action
+									li
+										a(href='#') Another action
+									li
+										a(href='#') Something else here
+									li.divider
+									li
+										a(href='#') Separated link
 					div#chat-window-container
 				#chat-input
 					#chat-input-field(contentEditable="true")
 				#tweet-feed
-					h3 Twitter Feed
-					.media.feed-item
-						a.pull-left(href='#')
-							img.media-object(data-src='holder.js/64x64')
-						.media
+					div#tweet-header
+						h3.pull-left Twitter Feed
+						#tweet-menu.pull-right
+							.btn-group
+								button.btn.dropdown-toggle(data-toggle='dropdown')
+									|	Filter 
+									span.caret
+								ul#tweet-filter.dropdown-menu
+									li
+										a(href='#') Tweets
+									li
+										a(href='#') Mentions
+									li
+										a(href='#') Images
+						br.clear
+					#media-feed-container
+						.media.feed-item
+							span.pull-right.chat-item-date 12 dec
 							a.pull-left(href='#')
-								img.media-object(data-src='holder.js/64x64', alt='64x64', src='https://si0.twimg.com/profile_images/3021682822/6542ee4b553546c2fab6a88e0ffe78c3_normal.jpeg')
-						.media-body
-							a.media-heading(href='#') Media heading
-							br
-							p Bagaavaaiy ma kuvverikuran #MDP ge Gaumee bodu Hingaalun #mvprotest pic.twitter.com/Kz82WWNP
-					.media.feed-item
-						a.pull-left(href='#')
-							img.media-object(data-src='holder.js/64x64')
-						.media
+								img.media-object(data-src='holder.js/64x64')
+							.media
+								a.pull-left(href='#')
+									img.media-object(data-src='holder.js/64x64', alt='64x64', src='https://si0.twimg.com/profile_images/3021682822/6542ee4b553546c2fab6a88e0ffe78c3_normal.jpeg')
+							.media-body
+								a.media-heading(href='#') Media heading
+								br
+								p Bagaavaaiy ma kuvverikuran #MDP ge Gaumee bodu Hingaalun #mvprotest pic.twitter.com/Kz82WWNP
+								div.media-foot
+									ul.breadcrumb
+										li
+											a(href="#") Chat
+												span.divider 
+										li
+											a(href="#") Reply
+												span.divider 
+										li
+											a(href="#") Retweet
+												span.divider 
+										li
+											a(href="#") Favorite
+												span.divider 
+						.media.feed-item
+							span.pull-right.chat-item-date 12 dec
 							a.pull-left(href='#')
-								img.media-object(data-src='holder.js/64x64', alt='64x64', src='https://si0.twimg.com/profile_images/3021682822/6542ee4b553546c2fab6a88e0ffe78c3_normal.jpeg')
-						.media-body
-							a.media-heading(href='#') Media heading
-							br
-							p Bagaavaaiy ma kuvverikuran #MDP ge Gaumee bodu Hingaalun #mvprotest pic.twitter.com/Kz82WWNP
-
+								img.media-object(data-src='holder.js/64x64')
+							.media
+								a.pull-left(href='#')
+									img.media-object(data-src='holder.js/64x64', alt='64x64', src='https://si0.twimg.com/profile_images/3021682822/6542ee4b553546c2fab6a88e0ffe78c3_normal.jpeg')
+							.media-body
+								a.media-heading(href='#') Media heading
+								br
+								p Bagaavaaiy ma kuvverikuran #MDP ge Gaumee bodu Hingaalun #mvprotest pic.twitter.com/Kz82WWNP
+								div.media-foot
+									ul.breadcrumb
+										li
+											a(href="#") Chat
+												span.divider 
+										li
+											a(href="#") Reply
+												span.divider 
+										li
+											a(href="#") Retweet
+												span.divider 
+										li
+											a(href="#") Favorite
+												span.divider 

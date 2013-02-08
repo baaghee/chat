@@ -9,7 +9,7 @@
     "express": "3.0.6",
     "jade": "*",
     "stylus": "*",
-    "underscore": "~1.4.3",
+    "underscore": "~1.4.4",
     "socket.io": "~0.9.13",
     "passport": "~0.1.15",
     "passport-twitter": "~0.1.4",
