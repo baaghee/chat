@@ -57,7 +57,7 @@ User.find({}, {_id:1}, function(err, users){
 passport.use(new TwitterStrategy({
 	consumerKey: settings.consumerKey,
 	consumerSecret: settings.consumerSecret,
-	callbackURL: "http://localhost:5002/auth/twitter/callback"
+	callbackURL: settings.cb
 	},
 	function(token, tokenSecret, profile, done) {
 		// register user if not registered
