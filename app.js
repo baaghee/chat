@@ -237,6 +237,7 @@ var chat = io.of('/chat').on('connection', function(socket){
 			msg:data.msg,
 			user:{
 				name:user.username,
+				id:user._id,
 				photo:user.raw.profile_image_url
 			}
 		};
