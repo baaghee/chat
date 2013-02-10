@@ -21,6 +21,8 @@ var express = require('express')
   , connectDomain = require('connect-domain')
   , _ = require('underscore')
 
+require('date-utils');
+
 //session
 var sessionStore = new MongoStore({db:'chat'});
 
@@ -179,7 +181,7 @@ app.get('/friends-on-chat', function(req,res){
 			var d = domain.create();
 			d.run(function(){
 				var id = req.session.passport.user;
-				twit.getFriendsIds(id, function(err, data){
+				syncFriends(id, function(err, data){
 					if(err) throw err;
 					//find whats more in length
 					
@@ -202,23 +204,27 @@ app.get('/friends-on-chat', function(req,res){
 						//end request
 						return res.json({});
 					}
-					twit.lookupUsers(common, function(err, data){
+					
+					registeredFriends(id, function(err, friends){
 						if(err) throw err;
 						var send;
 						var online = io.of('/chat').clients();
+						
 						//get online friends
-						
-						send = _.map(data, function(e){
-						
+						send = _.map(friends, function(e){
 							return {
-								id:e.id,
-								online: typeof  _.find(online,function(o){ return o.handshake.user.id == e.id }) == "object" ? "yes" : "no",
-								pic:e.profile_image_url,
-								name:e.screen_name
+								id:e._id,
+								online: typeof  _.find(online,function(o){ return o.handshake.user.id == e._id }) == "object" ? "yes" : "no",
+								pic:e.raw.profile_image_url,
+								name:e.username
 							};
 						});
 						res.json(send);
 					});
+					
+					/*twit.lookupUsers(common, function(err, data){
+
+					});*/
 				});
 			});
 			d.on('error', function(err){
@@ -228,6 +234,54 @@ app.get('/friends-on-chat', function(req,res){
 		});
 
 });
+
+function syncFriends(id, fn){
+	User.findOne({_id:id}, function(err,user){
+		if(err) throw(err);
+		if(!user){
+			//todo: loggined user doesn't exist, do something
+		}
+		//get token and consumer keys
+		var twit = new twitter({
+			consumer_key: settings.consumerKey,
+			consumer_secret: settings.consumerSecret,
+			access_token_key: user.token,
+			access_token_secret: user.tokenSecret
+		});
+		
+		//check 5min sync
+		
+		if(user.last_sync){
+			var date = new Date(user.last_sync);
+			console.log(date.getMinutesBetween(new Date()));
+			if(date.getMinutesBetween(new Date())< 5000){
+				return fn(null, user.friends);
+			}
+		}
+		
+		twit.getFriendsIds(id, function(err, friends){
+			user.friends = friends;
+			user.last_sync = new Date();
+			user.save(function(err){
+				return fn(null, user.friends);
+			});
+		});
+	});
+
+}
+
+function registeredFriends(id, fn){
+	User.findOne({_id:id}, function(err,user){
+		if(err) throw err;
+		if(!user.friends || user.friends.length == 0){
+			return fn(null, []);
+		}
+		User.find({_id:{$in:user.friends}}, function(err, friends){
+			if(err) throw err;
+			fn(null, friends);
+		});
+	});
+}
 
 // socket io
 var chat = io.of('/chat').on('connection', function(socket){
