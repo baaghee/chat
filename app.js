@@ -205,7 +205,7 @@ app.get('/friends-on-chat', function(req,res){
 						return res.json({});
 					}
 					
-					registeredFriends(id, function(err, friends){
+					registeredFriends(id, false, function(err, friends){
 						if(err) throw err;
 						var send;
 						var online = io.of('/chat').clients();
@@ -270,11 +270,14 @@ function syncFriends(id, fn){
 
 }
 
-function registeredFriends(id, fn){
+function registeredFriends(id, simple, fn){
 	User.findOne({_id:id}, function(err,user){
 		if(err) throw err;
 		if(!user.friends || user.friends.length == 0){
 			return fn(null, []);
+		}
+		if(simple){
+			return fn(null, user.friends);	
 		}
 		User.find({_id:{$in:user.friends}}, function(err, friends){
 			if(err) throw err;
@@ -285,6 +288,34 @@ function registeredFriends(id, fn){
 
 // socket io
 var chat = io.of('/chat').on('connection', function(socket){
+	var id = socket.handshake.user._id;
+	//set socket
+	socket.set("_id", id);
+	
+	//send all online friends online msg
+	//TODO: right now all the friend are being looped. Change this to 
+	//friends who the client already have allowed
+	
+	registeredFriends(id, true, function(err, friends){
+		friends.forEach(function(friend){
+			chat.clients().forEach(function(online){
+				if(online.handshake.user._id == friend){
+					online.emit("presence", {status:"online", id:id});
+				}
+			});
+		});
+	});
+	socket.on('disconnect', function(){
+		registeredFriends(id, true, function(err, friends){
+			friends.forEach(function(friend){
+				chat.clients().forEach(function(online){
+					if(online.handshake.user._id == friend){
+						online.emit("presence", {status:"offline", id:id});
+					}
+				});
+			});
+		});		
+	});
 	socket.on('message', function(data){
 		var user = JSON.parse(JSON.stringify(socket.handshake.user));
 		var f = formated_data = {
@@ -315,6 +346,11 @@ var chat = io.of('/chat').on('connection', function(socket){
 		//socket.emit('incoming', socket.handshake);
 	});
 });
+
+chat.on('disconnect', function(socket){
+	console.log('eere');
+});
+
 
 
 server.listen(5002);

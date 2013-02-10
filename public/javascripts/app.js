@@ -9,6 +9,10 @@ socket.on('incoming', function(data){
 	}
 	_data.chats[data.user.id].push(html);
 });
+socket.on('presence', function(presence){
+	console.log(presence);
+	$("#list-presence-" + presence.id).text(presence.status);
+});
 
 var data = _data =  {
 	current:null,
@@ -26,7 +30,7 @@ $(function(){
 	$.getJSON('/friends-on-chat', function(res){
 		$("#contact-container").html("");
 		res.forEach(function(e){
-			$("#contact-container").append('<div data-id="'+e.id+'" data-name="'+e.name+'" class="media user-list-item"><a href="#" class="user-invisible-link pull-left"><img data-src="holder.js/64x64" class="media-object"></a><div class="media"><a href="#" class="pull-left"><img data-src="holder.js/64x64" alt="64x64" style="width: 64px; height: 64px;" src="'+e.pic+'" class="media-object"></a></div><div class="media-body"><a href="#" class="media-heading">'+e.name+'</a><br>@username</div><br class="clear"></div>');
+			$("#contact-container").append('<div id="list-'+e.id+'" data-id="'+e.id+'" data-name="'+e.name+'" class="media user-list-item"><a href="#" class="user-invisible-link pull-left"><img data-src="holder.js/64x64" class="media-object"></a><div class="media"><a href="#" class="pull-left"><img data-src="holder.js/64x64" alt="64x64" style="width: 64px; height: 64px;" src="'+e.pic+'" class="media-object"></a></div><div class="media-body"><a href="#" class="media-heading">'+e.name+'</a><br><span id="list-presence-'+e.id+'">'+(e.online == "yes" ? "online": "")+'</span></div><br class="clear"></div>');
 		});
 	});
 	$("body").on("click", ".user-list-item", function(){
