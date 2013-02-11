@@ -1,5 +1,10 @@
 var socket = io.connect('/chat');
 
+var data = _data =  {
+	current:null,
+	chats:{}
+};
+
 socket.on('incoming', function(data){
 	var html = jade.render('message', data);
 	$("#chat-window-container").append(html);
@@ -7,17 +12,18 @@ socket.on('incoming', function(data){
 	if(typeof _data.chats[data.user.id] == 'undefined'){
 		_data.chats[data.user.id] = [];
 	}
-	_data.chats[data.user.id].push(html);
+	if(data.user.id == window.user){
+		_data.chats[_data.current].push(html);
+	}else{
+		_data.chats[data.user.id].push(html);
+	}
 });
 socket.on('presence', function(presence){
 	console.log(presence);
 	$("#list-presence-" + presence.id).text(presence.status);
 });
 
-var data = _data =  {
-	current:null,
-	chats:{}
-};
+
 
 $(function(){
 	$("#chat-input-field").on('keyup', function(e){

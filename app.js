@@ -140,6 +140,10 @@ app.configure(function(){
 	app.use(express.methodOverride());
 	app.use(jade_browser('/templates.js', '**', {root: __dirname + '/views/components', cache:false}));	
 	app.use(express.session({ secret: "a", store: sessionStore, cookie: { maxAge: 1000 * 60 * 60 * 7 * 1000 ,httpOnly: false, secure: false}}));
+	app.use(function(req, res, next){
+  		app.locals.session = req.session;
+  		next();
+	});	
 	app.use(passport.initialize());
 	app.use(passport.session());
 	app.use(app.router);

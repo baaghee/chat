@@ -10,5 +10,6 @@ html
 		script(src='/javascripts/bootstrap.min.js')
 		script(src='/templates.js')
 		script(src='/javascripts/app.js')
+		script window.user = #{locals.session.passport.user};
 	body
 		block content
