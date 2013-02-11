@@ -7,17 +7,27 @@ var data = _data =  {
 
 socket.on('incoming', function(data){
 	var html = jade.render('message', data);
-	$("#chat-window-container").append(html);
 	console.log(data);
 	if(typeof _data.chats[data.user.id] == 'undefined'){
 		_data.chats[data.user.id] = [];
 	}
 	if(data.user.id == window.user){
+		if(typeof _data.chats[_data.current]  == 'undefined'){
+			_data.chats[_data.current] = [];
+		}
 		_data.chats[_data.current].push(html);
 	}else{
 		_data.chats[data.user.id].push(html);
 	}
+	//notify or display if window open
+	console.log(_data.current, data.user.id);
+	if(_data.current != data.user.id && data.user.id != window.user){
+		$("#list-" + data.user.id).css("background", "red");
+		return;
+	}
+	$("#chat-window-container").append(html);
 });
+
 socket.on('presence', function(presence){
 	console.log(presence);
 	$("#list-presence-" + presence.id).text(presence.status);
