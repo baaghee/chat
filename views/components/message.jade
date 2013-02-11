@@ -1,0 +1,11 @@
+.media.chat-item
+	.chat-bubble-arrow
+	a.pull-left(href='#')
+		img.media-object(data-src='holder.js/64x64')
+	.media
+		a.pull-left(href='#')
+			img.media-object(data-src='holder.js/64x64', alt='64x64', src=user.photo)
+	.media-body
+		a.media-heading(href='#')=user.name
+		br
+		p=msg

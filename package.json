@@ -20,6 +20,7 @@
     "ntwitter": "~0.5.0",
     "passport.socketio": "0.0.5",
     "connect-domain": "~0.4.1",
-    "date-utils": "~1.2.12"
+    "date-utils": "~1.2.12",
+    "jade-browser": "0.0.9"
   }
 }

@@ -20,6 +20,8 @@ var express = require('express')
   , passportSocketIo = require("passport.socketio")
   , connectDomain = require('connect-domain')
   , _ = require('underscore')
+  , jade_browser = require('jade-browser')
+
 
 require('date-utils');
 
@@ -136,6 +138,7 @@ app.configure(function(){
 	app.use(express.cookieParser("a"));
 	app.use(express.bodyParser());
 	app.use(express.methodOverride());
+	app.use(jade_browser('/templates.js', '**', {root: __dirname + '/views/components', cache:false}));	
 	app.use(express.session({ secret: "a", store: sessionStore, cookie: { maxAge: 1000 * 60 * 60 * 7 * 1000 ,httpOnly: false, secure: false}}));
 	app.use(passport.initialize());
 	app.use(passport.session());
