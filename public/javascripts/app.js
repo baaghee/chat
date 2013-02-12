@@ -26,6 +26,7 @@ socket.on('incoming', function(data){
 		return;
 	}
 	$("#chat-window-container").append(html);
+	$("#chat-window-container").scrollTop($("#chat-window-container")[0].scrollHeight)
 });
 
 socket.on('presence', function(presence){
