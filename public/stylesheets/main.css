@@ -1,5 +1,5 @@
 body {
-	background: #272727;
+	background: #3a3a3a;
 	margin-top: 2px;
 }
 
@@ -31,7 +31,7 @@ body {
 	position: relative;
 	width: 100%;
 	height: 92%;
-	background: #F9F9F9;
+	background: rgb(250,250,250);
 }
 
 #contact-container {
@@ -39,23 +39,23 @@ body {
 }
 
 #contacts-list {
-	background: #rgb(254,254,254);
+	background: rgb(239, 240, 240);
 	position: absolute;
 	left: 0;
 	height: 100%;
-	width: 22%;
-	border-right: 1px solid #eee;
+	width: 17%;
+	border-right: 1px solid #ddd;
 	overflow: auto;
 }
 
 #chat-window {
 	position: absolute;
 	padding: 10px;
-	left: 22.1%;
+	left: 17.1%;
 	width: 43.4%;
 	height: 80%;
 	background: white;
-	border-right: 1px solid #eee;
+	border-right: 1px solid #ddd;
 	padding-top: 60px;
 }
 
@@ -70,9 +70,24 @@ body {
 	position: fixed;
 	z-index: 4000;
 	width: 44.8%;
-	left: 22.1%;
+	left: 17.1%;
 	top: 2px;
 	border-bottom: 1px solid #eee;
+}
+
+#my-contacts {
+	position: absolute;
+	width: 100%;
+	border-top: 1px solid #ddd;
+	border-bottom: 3px solid rgb(230,230,230);
+	padding-bottom: 5px;
+	height: 270px;
+}
+
+#my-contacts h5 {
+	color: #666;
+	font-weight: normal;
+	margin-left: 10px;
 }
 
 #tweet-header h3 {
@@ -93,7 +108,7 @@ body {
 #chat-input {
 	position: absolute;
 	bottom: 0;
-	left: 22.1%;
+	left: 17.1%;
 	width: 44.8%;
 	height: 120px;
 	background: white;
@@ -103,9 +118,9 @@ body {
 
 #tweet-feed {
 	position: absolute;
-	width: 33%;
+	width: 38%;
 	height: 100%;
-	right: 0;
+	left: 62%;
 }
 
 #tweet-filter.dropdown-menu {
@@ -159,9 +174,6 @@ body {
 
 .chat-item {
 	position: relative;
-	margin: 10px;
-	padding: 5px;
-	background: #F5F5F5;
 	margin-top: 10px;
 }
 
@@ -181,12 +193,16 @@ body {
 }
 
 .user-list-item {
+	border-radius: 5px;
 	font-size: 12px;
-	padding: 5px;
+	height: 20px;
+	margin: 2px 5px;
+	padding: 0px;
+	padding-left: 5px;
 	padding-bottom: 10px;
 	color: #999;
 	border-bottom: 1px solid #eee;
-	overflow: auto;
+	overflow: none;
 }
 
 .user-invisible-link {
@@ -197,8 +213,19 @@ body {
 	margin-right: 10px;
 }
 
+.user-list-item .media-object {
+	width: 24px!important;
+	height: 24px!important;
+	margin-top: 3px;
+}
+
+.media-heading {
+	line-height: 30px;
+}
+
 .user-list-item:hover {
-	background: rgb(253,253,253);
+	background: #e3e3e3;
+	text-decoration: none;
 	cursor: pointer;
 }
 
@@ -208,13 +235,7 @@ body {
 }
 
 .active-user, .active-user:hover {
-	background: #008DDE;
-	border-right: white;
-	color: white;
-}
-
-.active-user a:link, .active-user a:visited {
-	color: white!important;
+	background: #D9DADD;
 }
 
 #chat-window-header h3 {
@@ -239,23 +260,23 @@ body {
 #contacts-list-footer {
 	position: fixed;
 	bottom: 7.7%;
-	width: 22%;
-	border-top: 1px solid #eee;
-	padding: 10px;
-	background-image: -webkit-linear-gradient(top,#f5f5f5,#f1f1f1); 
+	width: 17%;
+	border-top: 1px solid #ddd;
+	padding: 10px; 
 }
 
 .media-foot {
 	border-top: 1px solid #eee;
-	background-image: -webkit-linear-gradient(top,white,#f7f7f7);
+	background: rgb(250,250,250);
 	padding: 5px;
 	margin-top: 10px;
 }
 
 #contacts-filter {
-	width: 92%;
-	background: rgba(250,250,250, .9);
+	width: 90%;
 	border: 1px solid #ddd;
+	color: #aaa;
+	font-size: 12px;
 }
 
 #media-feed-container {
@@ -303,4 +324,23 @@ a.button-twitter:hover {
 	width: 375px;
 	margin: auto;
 	margin-top: 200px;
+}
+
+#footer {
+	z-index: 6000;
+	background: #3a3a3a;
+	width: 100%;
+	height: 55px;
+	position: fixed;
+	bottom: 0px;
+	left: 0px;
+}
+
+#footer h2 {
+	color: white;
+	font-weight: normal;
+	font-size: 20px;
+	margin: 0;
+	margin-top: 7px;
+	margin-left: 15px;
 }
