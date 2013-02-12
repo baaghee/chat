@@ -112,8 +112,18 @@ body {
 	width: 44.8%;
 	height: 120px;
 	background: white;
-	border-top: 1px solid #eee;
-	border-right: 1px solid #eee;
+	border-top: 1px solid #ddd;
+	border-right: 1px solid #ddd;
+}
+
+.online-icon {
+	margin-top: 10px;
+	margin-right: 5px;
+	float: right;
+	border-radius: 50%;
+	width: 10px;
+  	height: 10px;
+  	background: #A3D900;
 }
 
 #tweet-feed {
@@ -125,7 +135,7 @@ body {
 
 #tweet-filter.dropdown-menu {
 	right: 0px!important;
-	left: -120%;
+	width: 70px;
 }
 
 #tweet-header {
