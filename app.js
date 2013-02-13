@@ -362,7 +362,7 @@ stream.on('connection', function(socket){
 		access_token_key: user.token,
 		access_token_secret: user.tokenSecret
 	});
-	twit.stream({'user'}, {track:user.username}, function(data){
+	twit.stream('user', {track:user.username}, function(data){
 		socket.emit('stream', data);
 	});
 });
