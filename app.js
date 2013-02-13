@@ -347,15 +347,28 @@ var chat = io.of('/chat').on('connection', function(socket){
 			}
 			
 		}
-		
-		
-		
 		//socket.emit('incoming', socket.handshake);
 	});
 });
 
+//
+
+var stream = io.of('/stream');
+stream.on('connection', function(socket){
+	var user = socket.handshake.user;
+	var twit = new twitter({
+		consumer_key: settings.consumerKey,
+		consumer_secret: settings.consumerSecret,
+		access_token_key: user.token,
+		access_token_secret: user.tokenSecret
+	});
+	twit.stream({'user'}, {track:user.username}, function(data){
+		socket.emit('stream', data);
+	});
+});
+
 chat.on('disconnect', function(socket){
-	console.log('eere');
+	console.log('disconnected');
 });
 
 

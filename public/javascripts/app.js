@@ -1,4 +1,5 @@
 var socket = io.connect('/chat');
+var stream = io.connect('/stream');
 
 var data = _data =  {
 	focused:true,
@@ -37,6 +38,9 @@ socket.on('incoming', function(data){
 	$("#chat-window-container").scrollTop($("#chat-window-container")[0].scrollHeight);
 	//change title
 	
+});
+stream.on('stream', function(data){
+	console.log(data);
 });
 
 socket.on('presence', function(presence){
