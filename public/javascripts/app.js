@@ -40,12 +40,15 @@ socket.on('incoming', function(data){
 	
 });
 stream.on('stream', function(data){
-	console.log(data);
+	if(!data.length)
+		$("#media-feed-container").prepend(jade.render('tweet',data));
 });
 
 socket.on('presence', function(presence){
-	console.log(presence);
-	$("#list-presence-" + presence.id).text(presence.status);
+	if(presence.status == 'online')
+		$("#list-presence-" + presence.id).html("<span class='online-icon'></span>");
+	else
+		$("#list-presence-" + presence.id).html('');
 });
 
 
@@ -82,8 +85,9 @@ $(function(){
 	});
 	$.getJSON('/friends-on-chat', function(res){
 		$("#my-instant-contacts").html("");
+		if(!res.length) return;
 		res.forEach(function(e){
-			$("#my-instant-contacts").append('<div id="list-'+e.id+'" data-id="'+e.id+'" data-name="'+e.name+'" class="media user-list-item"><a href="#" class="user-invisible-link pull-left"><img data-src="holder.js/64x64" class="media-object"></a><div class="media"><a href="#" class="pull-left"><img data-src="holder.js/64x64" alt="64x64" style="width: 64px; height: 64px;" src="'+e.pic+'" class="media-object"></a></div><div class="media-body"><a href="#" class="media-heading">'+e.name+'</a><br><span id="list-presence-'+e.id+'">'+(e.online == "yes" ? "<span class='online-icon'> </span>" : "") +'</span></div><br class="clear"></div>');
+			$("#my-instant-contacts").append('<div id="list-'+e.id+'" data-id="'+e.id+'" data-name="'+e.name+'" class="media user-list-item"><a href="#" class="user-invisible-link pull-left"><img data-src="holder.js/64x64" class="media-object"></a><div class="media"><a href="#" class="pull-left"><img data-src="holder.js/64x64" alt="64x64" style="width: 64px; height: 64px;" src="'+e.pic+'" class="media-object"></a></div><div class="media-body"><a href="#" class="media-heading">'+e.name+'</a><span id="list-presence-'+e.id+'">'+(e.online == "yes" ? "<span class='online-icon'></span>" : "") +'</span></div><br class="clear"></div>');
 		});
 	});
 	$("body").on("click", ".user-list-item", function(){

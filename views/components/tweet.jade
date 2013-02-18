@@ -1,0 +1,29 @@
+section.media.feed-item
+	span.pull-right.chat-item-date 12 dec
+	a.pull-left(href='#')
+		img.media-object(data-src='holder.js/64x64')
+	section.media
+		a.pull-left(href='#')
+			img.media-object(data-src='holder.js/64x64',alt='64x64',src=user.profile_image_url)
+	section.media-body
+		a.media-heading(href='#')=user.screen_name
+		br
+		p!=text
+		section.media-foot
+			ul.breadcrumb
+				li
+					a(href='#')
+					| Chat
+					span.sectionider
+				li
+					a(href='#')
+					| Reply
+					span.sectionider
+				li
+					a(href='#')
+					| Retweet
+					span.sectionider
+				li
+					a(href='#')
+					| Favorite
+					span.sectionider

@@ -343,7 +343,7 @@ var chat = io.of('/chat').on('connection', function(socket){
 			
 			if(users[i].handshake.user._id == parseInt(data.to)){
 				users[i].emit('incoming', f);
-				break;
+				//break;
 			}
 			
 		}
@@ -355,17 +355,24 @@ var chat = io.of('/chat').on('connection', function(socket){
 
 var stream = io.of('/stream');
 stream.on('connection', function(socket){
-	var user = socket.handshake.user;
-	var twit = new twitter({
-		consumer_key: settings.consumerKey,
-		consumer_secret: settings.consumerSecret,
-		access_token_key: user.token,
-		access_token_secret: user.tokenSecret
-	});
-	twit.stream('user', {track:user.username}, function(str){
-		str.on('data', function(data){
-			socket.emit('stream', data);
+	var d = domain.create();
+	d.run(function(){
+		var user = socket.handshake.user;
+		var twit = new twitter({
+			consumer_key: settings.consumerKey,
+			consumer_secret: settings.consumerSecret,
+			access_token_key: user.token,
+			access_token_secret: user.tokenSecret
 		});
+		twit.stream('user', {track:user.username}, function(str){
+			str.on('data', function(data){
+				socket.emit('stream', data);
+				//TODO: handle disconnects
+			});
+		});
+	});
+	d.on('error', function(err){
+		console.log(err);
 	});
 });
 
