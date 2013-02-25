@@ -11,33 +11,7 @@ var data = _data =  {
 };
 
 socket.on('incoming', function(data){
-	var html = jade.render('message', data);
-	console.log(data);
-	if(typeof _data.chats[data.user.id] == 'undefined'){
-		_data.chats[data.user.id] = [];
-	}
-	if(data.user.id == window.user){
-		if(typeof _data.chats[_data.current]  == 'undefined'){
-			_data.chats[_data.current] = [];
-		}
-		_data.chats[_data.current].push(html);
-	}else{
-		_data.chats[data.user.id].push(html);
-	}
-	//notify or display if window open
-	console.log(_data.current, data.user.id);
-	if(_data.focused == false){
-		_data.unread = true;
-		$(window).trigger("blur");
-	}
-	if(_data.current != data.user.id && data.user.id != window.user){
-		$("#list-" + data.user.id).css("background", "red");
-		return;
-	}
-	$("#chat-window-container").append(html);
-	$("#chat-window-container").scrollTop($("#chat-window-container")[0].scrollHeight);
-	//change title
-	
+	renderMessage(data);	
 });
 stream.on('stream', function(data){
 	if(!data.length)
@@ -96,8 +70,8 @@ $(function(){
 		$('.user-list-item').not(this).removeClass("active-user");
 
 		$("#chat-window-container").html('');
-		
-		data.current = $(this).attr('data-id');
+		var id = $(this).attr('data-id');
+		data.current = id;
 		$("#chat-window-header h3").text($(this).attr('data-name'));
 		
 		//see if existing chat exists
@@ -107,8 +81,45 @@ $(function(){
 			data.chats[data.current].forEach(function(msg){
 				$("#chat-window-container").append(msg);
 			});
+		}else{
+			$.getJSON('/activity/messages/' + id, function(data){
+				data.forEach(function(data){
+					data.from.name = data.from.screen_name;
+					data.msg = data.message;
+					data.user = data.from;
+					renderMessage(data);
+				});
+			});
 		}
 		
 		//create new one if not
 	});
 });
+
+function renderMessage(data){
+	var html = jade.render('message', data);
+	console.log(data);
+	if(typeof _data.chats[data.user.id] == 'undefined'){
+		_data.chats[data.user.id] = [];
+	}
+	if(data.user.id == window.user){
+		if(typeof _data.chats[_data.current]  == 'undefined'){
+			_data.chats[_data.current] = [];
+		}
+		_data.chats[_data.current].push(html);
+	}else{
+		_data.chats[data.user.id].push(html);
+	}
+	//notify or display if window open
+	if(_data.focused == false){
+		_data.unread = true;
+		$(window).trigger("blur");
+	}
+	if(_data.current != data.user.id && data.user.id != window.user){
+		$("#list-" + data.user.id).css("background", "red");
+		return;
+	}
+	$("#chat-window-container").append(html);
+	$("#chat-window-container").scrollTop($("#chat-window-container")[0].scrollHeight);
+	//change title
+}
