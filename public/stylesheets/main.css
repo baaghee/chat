@@ -46,10 +46,9 @@
 
 #chat-window {
 	position: absolute;
-	padding: 10px;
 	left: 17.1%;
 	width: 43.4%;
-	height: 80%;
+	height: 90%!important;
 	background: white;
 	border-right: 1px solid #ddd;
 	padding-top: 60px;
@@ -69,15 +68,6 @@
 	left: 17.1%;
 	top: 2px;
 	border-bottom: 1px solid #eee;
-}
-
-#my-contacts {
-	position: absolute;
-	width: 100%;
-	border-top: 1px solid #ddd;
-	border-bottom: 3px solid rgb(230,230,230);
-	padding-bottom: 5px;
-	height: 270px;
 }
 
 #my-contacts h5 {
@@ -107,8 +97,7 @@
 
 #chat-input {
 	position: absolute;
-	bottom: 0;
-	left: 17.1%;
+	bottom: 12%;
 	width: 44.8%;
 	height: 120px;
 	background: white;
@@ -124,13 +113,6 @@
 	width: 10px;
   	height: 10px;
   	background: #A3D900;
-}
-
-#tweet-feed {
-	position: absolute;
-	width: 38%;
-	height: 100%;
-	left: 62%;
 }
 
 #tweet-filter.dropdown-menu {
@@ -297,6 +279,11 @@
 
 .media-foot .breadcrumb a {
 	color: #0AC6FF;
+	opacity: .3;
+}
+
+.media-foot .breadcrumb a:hover {
+	opacity: 1;
 }
 
 .media-foot .breadcrumb a:hover {
@@ -304,14 +291,14 @@
 }
 
 #contacts-filter {
-	width: 90%;
+	width: 80%;
 	border: 1px solid #ddd;
 	color: #aaa;
 	font-size: 12px;
 }
 
 #media-feed-container {
-	height: 91%;
+	height: 90%;
 	overflow: auto;
 }
 
@@ -423,11 +410,11 @@ a.button-twitter:hover {
 }
 
 #chat-conversation {
-	margin-top: 60px;
-	height: 75%;
+	margin-top: 10px;
 	border-bottom: 1px solid #eee;
+	height: 83%;
 }
 
 #my-instant-contacts {
-	height: 700px;
+	height: 630px;
 }

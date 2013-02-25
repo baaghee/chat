@@ -34,8 +34,8 @@ socket.on('incoming', function(data){
 		$("#list-" + data.user.id).css("background", "red");
 		return;
 	}
-	$("#chat-window-container").append(html);
-	$("#chat-window-container").scrollTop($("#chat-window-container")[0].scrollHeight);
+	$("#chat-conversations").append(html);
+	$("#chat-conversations").scrollTop($("#chat-conversations")[0].scrollHeight);
 	//change title
 	
 });
@@ -95,7 +95,7 @@ $(function(){
 		$(this).addClass("active-user");
 		$('.user-list-item').not(this).removeClass("active-user");
 
-		$("#chat-conversation").html('');
+		$("#chat-conversations").html('');
 		
 		data.current = $(this).attr('data-id');
 		$("#chat-window h3").text($(this).attr('data-name'));
@@ -105,7 +105,7 @@ $(function(){
 		//display chat if found
 		if(typeof data.chats[data.current] != 'undefined'){
 			data.chats[data.current].forEach(function(msg){
-				$("#chat-conversation").append(msg);
+				$("#chat-conversations").append(msg);
 			});
 		}
 		
@@ -125,7 +125,8 @@ $(document).ready(function() {
                         orientation: "vertical",
                         panes: [
                             { collapsible: false, resizable: true, size: "50%" },
-                            { collapsible: false, resizable: true, size: "50px" }
+                            { collapsible: false, resizable: true, size: "50%" },
+                            { collapsible: false, resizable: false, size: "50%" }
                         ]
                     });                    
 
