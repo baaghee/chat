@@ -189,7 +189,7 @@
 	margin-bottom: 0;
 }
 
-.user-list-item {
+.user-invite-item, .user-list-item {
 	border-radius: 5px;
 	font-size: 12px;
 	height: 20px;
@@ -198,7 +198,6 @@
 	padding-left: 5px;
 	padding-bottom: 10px;
 	color: #999;
-	border-bottom: 1px solid #eee;
 	overflow: none;
 }
 
@@ -206,11 +205,18 @@
 	display: none;
 }
 
-.user-list-item img {
+.user-invite-item img, .user-list-item img {
 	margin-right: 10px;
 }
 
-.user-list-item .media-object {
+.user-invite-item .media-object , .user-list-item .media-object {
+	width: 24px!important;
+	height: 24px!important;
+	margin-top: 3px;
+}
+
+
+.user-invite-item .media-object {
 	width: 24px!important;
 	height: 24px!important;
 	margin-top: 3px;
@@ -226,7 +232,7 @@
 	cursor: pointer;
 }
 
-.user-list-item a:link, .user-list-item a:visited {
+.user-invite-item a:link, .user-list-item a:link, .user-invite-item a:visited, .user-list-item a:visited {
 	color: #666!important;
 	font-weight: bold;
 }
@@ -416,5 +422,23 @@ a.button-twitter:hover {
 }
 
 #my-instant-contacts {
+	width: 220px;
 	height: 630px;
+}
+
+.invite-icon {
+	font-weight: normal!important;
+	float: right;
+	padding: 5px;
+	margin-top: 3px;
+}
+
+.invite-icon:hover {
+	text-decoration: none;
+	color: #eee;
+}
+
+.invite-icon .icons {
+	margin-right: 5px;
+	color: #0AC6FF;
 }
