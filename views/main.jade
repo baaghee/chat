@@ -1,25 +1,25 @@
 extends layout
 
 block content
-		#footer
-			h2 instanTweet
-		section#main-container
-			#window-container
-				#contacts-list
-					#contact-container
-						#contact-list-options
-						#contact-items
+		section#main.container-fluid
+			section#windows
+				#horizontal(style='height: 100%; width: 100%;')
+					#contacts-container
+						#my-instant-contacts.pane-content
 							#my-contacts
-								h5 My Contacts
-								#my-instant-contacts
-							#other-contacts
-								fff
-						div#contacts-list-footer
-							input#contacts-filter (type="text" placeholder="Type something…")
-				#chat-window
-					div#chat-window-header
-						h3.pull-left Cog
-						#window-menu.pull-right
+								.pane-content
+									h3 Inner splitter / center pane
+									p Resizable only.
+							#available-contacts
+								.pane-content
+									h3 Inner splitter / right pane
+									p Resizable and collapsible.
+							div#contacts-list-footer
+								input#contacts-filter (type="text" placeholder="Type something…")
+					#chat-window
+						#chat-window-header
+							#window-menu.pull-right
+							h3.pull-left Cog
 							.btn-group
 								button.btn.dropdown-toggle(data-toggle='dropdown')
 									|	Actions 
@@ -34,53 +34,80 @@ block content
 									li.divider
 									li
 										a(href='#') Separated link
+							
+						#chat-conversation
+						#chat-input-window
+							#chat-input(contenteditable='true')
+					#twitter-feed
+						.pane-content
+							div#tweet-header
+								h3.pull-left Twitter Feed
+								#tweet-menu.pull-right
+									.btn-group
+										button.btn.btn-inverse New Tweet
+										button.btn.dropdown-toggle(data-toggle='dropdown')
+											|	Filter 
+											span.caret
+										ul#tweet-filter.dropdown-menu
+											li
+												a(href='#') Tweets
+											li
+												a(href='#') Mentions
+											li
+												a(href='#') Images
+								br.clear
+							#media-feed-container
+								.media.feed-item
+									span.pull-right.chat-item-date 12 dec
+									a.pull-left(href='#')
+										img.media-object(data-src='holder.js/64x64')
+									.media
+										a.pull-left(href='#')
+											img.media-object(data-src='holder.js/64x64', alt='64x64', src='https://si0.twimg.com/profile_images/3021682822/6542ee4b553546c2fab6a88e0ffe78c3_normal.jpeg')
+									.media-body
+										a.media-heading(href='#') Media heading
+										br
+										p Bagaavaaiy ma kuvverikuran #MDP ge Gaumee bodu Hingaalun #mvprotest pic.twitter.com/Kz82WWNP
+										div.media-foot
+											ul.breadcrumb
+												li
+													a(href="#") 
+														span.icon-comment
+														span.divider 
+												li
+													a(href="#")
+														span.icon-reply
+														span.divider 
+												li
+													a(href="#")
+														span.icon-retweet
+														span.divider 
+												li
+													a(href="#")
+														span.icon-star
+														span.divider 
+						footer#footer
+							.pane-content
+								h3 Outer splitter / bottom pane
+								p Non-resizable and non-collapsible.
+		section#main
+			#window-container
+				#contacts-list
+					#contact-container
+						#contact-list-options
+						#contact-items
+							#my-contacts
+								
+							#other-contacts
+								fff
+						
+				#chat-window
+					div#chat-window-header
+						
+						
 					div#chat-window-container
 				#chat-input
 					#chat-input-field(contentEditable="true")
 				#tweet-feed
-					div#tweet-header
-						h3.pull-left Twitter Feed
-						#tweet-menu.pull-right
-							.btn-group
-								button.btn.btn-inverse New Tweet
-								button.btn.dropdown-toggle(data-toggle='dropdown')
-									|	Filter 
-									span.caret
-								ul#tweet-filter.dropdown-menu
-									li
-										a(href='#') Tweets
-									li
-										a(href='#') Mentions
-									li
-										a(href='#') Images
-						br.clear
-					#media-feed-container
-						.media.feed-item
-							span.pull-right.chat-item-date 12 dec
-							a.pull-left(href='#')
-								img.media-object(data-src='holder.js/64x64')
-							.media
-								a.pull-left(href='#')
-									img.media-object(data-src='holder.js/64x64', alt='64x64', src='https://si0.twimg.com/profile_images/3021682822/6542ee4b553546c2fab6a88e0ffe78c3_normal.jpeg')
-							.media-body
-								a.media-heading(href='#') Media heading
-								br
-								p Bagaavaaiy ma kuvverikuran #MDP ge Gaumee bodu Hingaalun #mvprotest pic.twitter.com/Kz82WWNP
-								div.media-foot
-									ul.breadcrumb
-										li
-											a(href="#") 
-												span.icon-comment
-												span.divider 
-										li
-											a(href="#")
-												span.icon-reply
-												span.divider 
-										li
-											a(href="#")
-												span.icon-retweet
-												span.divider 
-										li
-											a(href="#")
-												span.icon-star
-												span.divider 
+					
+					

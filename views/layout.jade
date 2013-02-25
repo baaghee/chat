@@ -4,11 +4,14 @@ html
 		title fgdf
 		link(rel='stylesheet', href='/stylesheets/bootstrap.css')
 		link(rel='stylesheet', href='/stylesheets/bootstrap-responsive.css')
+		link(rel='stylesheet', href='/styles/kendo.common.min.css')
+		link(rel='stylesheet', href='/styles/kendo.uniform.min.css')
 		link(rel='stylesheet', href='/stylesheets/main.css')
 		link(rel='stylesheet', href='/stylesheets/font-awesome.min.css')
 		script(src='/socket.io/socket.io.js')
-		script(src='/javascripts/jquery.js')
+		script(src='/js/jquery.min.js')
 		script(src='/javascripts/bootstrap.min.js')
+		script(src='/js/kendo.web.min.js')
 		script(src='/templates.js')
 		script(src='/javascripts/app.js')
 		script window.user = #{locals.session.passport.user};

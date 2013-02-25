@@ -76,7 +76,7 @@ $(function(){
 			data.unread = false;
 		}
 	});
-	$("#chat-input-field").on('keyup', function(e){
+	$("#chat-input").on('keyup', function(e){
 		if(e.keyCode == 13){
 			var val = $(this).text();
 			$(this).text('');
@@ -84,10 +84,10 @@ $(function(){
 		}
 	});
 	$.getJSON('/friends-on-chat', function(res){
-		$("#my-instant-contacts").html("");
+		$("#my-contacts").html("");
 		if(!res.length) return;
 		res.forEach(function(e){
-			$("#my-instant-contacts").append('<div id="list-'+e.id+'" data-id="'+e.id+'" data-name="'+e.name+'" class="media user-list-item"><a href="#" class="user-invisible-link pull-left"><img data-src="holder.js/64x64" class="media-object"></a><div class="media"><a href="#" class="pull-left"><img data-src="holder.js/64x64" alt="64x64" style="width: 64px; height: 64px;" src="'+e.pic+'" class="media-object"></a></div><div class="media-body"><a href="#" class="media-heading">'+e.name+'</a><span id="list-presence-'+e.id+'">'+(e.online == "yes" ? "<span class='online-icon'></span>" : "") +'</span></div><br class="clear"></div>');
+			$("#my-contacts").append('<div id="list-'+e.id+'" data-id="'+e.id+'" data-name="'+e.name+'" class="media user-list-item"><a href="#" class="user-invisible-link pull-left"><img data-src="holder.js/64x64" class="media-object"></a><div class="media"><a href="#" class="pull-left"><img data-src="holder.js/64x64" alt="64x64" style="width: 64px; height: 64px;" src="'+e.pic+'" class="media-object"></a></div><div class="media-body"><a href="#" class="media-heading">'+e.name+'</a><span id="list-presence-'+e.id+'">'+(e.online == "yes" ? "<span class='online-icon'></span>" : "") +'</span></div><br class="clear"></div>');
 		});
 	});
 	$("body").on("click", ".user-list-item", function(){
@@ -95,20 +95,46 @@ $(function(){
 		$(this).addClass("active-user");
 		$('.user-list-item').not(this).removeClass("active-user");
 
-		$("#chat-window-container").html('');
+		$("#chat-conversation").html('');
 		
 		data.current = $(this).attr('data-id');
-		$("#chat-window-header h3").text($(this).attr('data-name'));
+		$("#chat-window h3").text($(this).attr('data-name'));
 		
 		//see if existing chat exists
 		
 		//display chat if found
 		if(typeof data.chats[data.current] != 'undefined'){
 			data.chats[data.current].forEach(function(msg){
-				$("#chat-window-container").append(msg);
+				$("#chat-conversation").append(msg);
 			});
 		}
 		
 		//create new one if not
 	});
 });
+$(document).ready(function() {
+                    $("#main").kendoSplitter({
+                        orientation: "vertical",
+                        panes: [
+                            { collapsible: false, resizable: false },
+                            { collapsible: false, resizable: false, size: "50px" }
+                        ]
+                    });
+
+					$("#my-instant-contacts").kendoSplitter({
+                        orientation: "vertical",
+                        panes: [
+                            { collapsible: false, resizable: true, size: "50%" },
+                            { collapsible: false, resizable: true, size: "50px" }
+                        ]
+                    });                    
+
+                    $("#horizontal").kendoSplitter({
+                        panes: [
+                            { collapsible: true ,resizable: false, size: "220px" },
+                            { collapsible: false },
+                            { collapsible: true, size: "40%" }
+                        ]
+                    });
+                    
+                });
