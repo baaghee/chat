@@ -8,7 +8,7 @@ block content
 						#my-instant-contacts.pane-content
 							#my-contacts
 								.pane-content
-									<div id="list-1" data-id="1" data-name="hilarl" class="media user-list-item"><a href="#" class="user-invisible-link pull-left"><img data-src="holder.js/64x64" class="media-object"></a><div class="media"><a href="#" class="pull-left"><img data-src="holder.js/64x64" alt="64x64" style="width: 64px; height: 64px;" src="'+e.pic+'" class="media-object"></a></div><div class="media-body"><a href="#" class="media-heading">hilarl</a><span id="list-presence-1"><span class='online-icon'></span><span class="badge badge-warning">4</span></span></div><br class="clear"></div>
+									<div id="list-1" data-id="1" data-name="hilarl" class="media user-list-item"><a href="#" class="user-invisible-link pull-left"><img data-src="holder.js/64x64" class="media-object"></a><div class="media"><a href="#" class="pull-left"><img data-src="holder.js/64x64" alt="64x64" style="width: 64px; height: 64px;" src="'+e.pic+'" class="media-object"></a></div><div class="media-body"><a href="#" class="media-heading">hilarl</a><span id="list-presence-1"><span class='online-icon'></span></span></div><br class="clear"></div>
 
 									<div id="list-1" data-id="1" data-name="hilarl" class="media user-list-item highlight"><a href="#" class="user-invisible-link pull-left"><img data-src="holder.js/64x64" class="media-object"></a><div class="media"><a href="#" class="pull-left"><img data-src="holder.js/64x64" alt="64x64" style="width: 64px; height: 64px;" src="'+e.pic+'" class="media-object"></a></div><div class="media-body"><a href="#" class="media-heading">hilarl</a><span id="list-presence-1"><span class='online-icon'></span><span class="badge badge-warning">4</span></span></div><br class="clear"></div>
 
@@ -16,9 +16,9 @@ block content
 										span.icon-spinner.icon-spin.icon-2x
 							#available-contacts
 								.pane-content
-									<div id="list-1" data-id="1" data-name="hilarl" class="media user-invite-item"><a href="#" class="user-invisible-link pull-left"><img data-src="holder.js/64x64" class="media-object"></a><div class="media"><a href="#" class="pull-left"><img data-src="holder.js/64x64" alt="64x64" style="width: 64px; height: 64px;" src="'+e.pic+'" class="media-object"></a></div><div class="media-body"><a href="#" class="media-heading">hilarl</a><span id="list-presence-1"><a href="#" class='invitation-icon remove'><span class="remove icon-remove-sign"></span></a><a href="#" class='invitation-icon ok'><span class="ok icon-ok-sign"></span>Accept</a></div><br class="clear"></div>
+									<div id="list-1" data-id="1" data-name="hilarl" class="media user-invite-item"><a href="#" class="user-invisible-link pull-left"><img data-src="holder.js/64x64" class="media-object"></a><div class="media"><a href="#" class="pull-left"><img data-src="holder.js/64x64" alt="64x64" style="width: 64px; height: 64px;" src="'+e.pic+'" class="media-object"></a></div><div class="media-body"><a href="#" class="media-heading">hilarl</a><span id="list-presence-1"><a href="#" class='invitation-icon remove'><span class="remove icon-remove-sign"></span></a><a href="#accept-friend" class='invitation-icon ok'><span class="ok icon-ok-sign"></span>Accept</a></div><br class="clear"></div>
 
-									<div id="list-1" data-id="1" data-name="hilarl" class="media user-invite-item"><a href="#" class="user-invisible-link pull-left"><img data-src="holder.js/64x64" class="media-object"></a><div class="media"><a href="#" class="pull-left"><img data-src="holder.js/64x64" alt="64x64" style="width: 64px; height: 64px;" src="'+e.pic+'" class="media-object"></a></div><div class="media-body"><a href="#" class="media-heading">hilarl</a><span id="list-presence-1"><a href="#" class='invitation-icon add'><span class="add icon-plus-sign-alt"></span>Add</a></div><br class="clear"></div>
+									<div id="list-1" data-id="1" data-name="hilarl" class="media user-invite-item"><a href="#" class="user-invisible-link pull-left"><img data-src="holder.js/64x64" class="media-object"></a><div class="media"><a href="#" class="pull-left"><img data-src="holder.js/64x64" alt="64x64" style="width: 64px; height: 64px;" src="'+e.pic+'" class="media-object"></a></div><div class="media-body"><a href="#" class="media-heading">hilarl</a><span id="list-presence-1"><a href="#accept-friend" role='button' data-toggle='modal' class='invitation-icon add'><span class="add icon-plus-sign-alt"></span>Add</a></div><br class="clear"></div>
 
 									<div id="list-1" data-id="1" data-name="hilarl" class="media user-invite-item"><a href="#" class="user-invisible-link pull-left"><img data-src="holder.js/64x64" class="media-object"></a><div class="media"><a href="#" class="pull-left"><img data-src="holder.js/64x64" alt="64x64" style="width: 64px; height: 64px;" src="'+e.pic+'" class="media-object"></a></div><div class="media-body"><a href="#" class="media-heading">hilarl</a><span id="list-presence-1"><a href="#" class='invitation-icon invite'><span class="invite icon-envelope-alt"></span>Invite</a></div><br class="clear"></div>
 
@@ -37,15 +37,11 @@ block content
 									span.caret
 								ul.dropdown-menu
 									li
-										a(href='#') Action
+										a(href='#') Block User
 									li
 										a(href='#') Another action
 									li
 										a(href='#') Something else here
-									li.divider
-									li
-										a(href='#') Separated link
-							
 						#chat-conversation
 							div.loader-large
 										span.icon-spinner.icon-spin.icon-4x.gray

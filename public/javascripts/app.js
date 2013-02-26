@@ -149,5 +149,10 @@ $(document).ready(function() {
                     $(".media.user-list-item.highlight").click(function(){
                     	$(this).removeClass("highlight");
                     });
+
+                    win = $(window).height();
                     
+                    $("#main").css("height", win - 50);
+                    $("#tweet-header").css("height", win - 60);
+                    $("#chat-window").css("height", win - 50);
                 });

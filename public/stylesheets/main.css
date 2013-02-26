@@ -48,7 +48,7 @@
 	position: absolute;
 	left: 17.1%;
 	width: 43.4%;
-	height: 88.5%!important;
+	height: 92%!important;
 	background: white;
 	border-right: 1px solid #ddd;
 	padding-top: 60px;
@@ -124,7 +124,7 @@
 #chat-input {
 	position: absolute;
 	bottom: 12%;
-	width: 44.8%;
+	width: 46%;
 	height: 120px;
 	background: white;
 	border-top: 1px solid #ddd;
@@ -389,7 +389,7 @@ a.button-twitter:hover {
 }
 
 #main {
-	min-height: 700px;
+	/* min-height: 700px;*/
 	border: 1px solid #000;
 }
 
@@ -429,7 +429,7 @@ a.button-twitter:hover {
 #chat-input {
 	border-radius: 5px;
 	margin: 10px;
-	width: 96%;
+	width: 96.5%;
 	height: 60px;
 	border: 1px solid #dadada;
 }
@@ -541,6 +541,7 @@ a.button-twitter:hover {
 #my-contacts .badge {
 	background: #FFECCA;
 	color: #FF8000;
+	border: 0.5px solid #FF8000;
 	text-shadow: none;
 	font-weight: normal;
 	padding: 3px 6px;
