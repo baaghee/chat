@@ -21,7 +21,8 @@ var express = require('express')
   , connectDomain = require('connect-domain')
   , _ = require('underscore')
   , jade_browser = require('jade-browser')
-
+  , redis = require('redis')
+  , client = redis.createClient()
 
 require('date-utils');
 
@@ -57,6 +58,9 @@ User.find({}, {_id:1}, function(err, users){
 		registered_ids.push(e._id);
 	});
 });
+
+//Message
+var Message = require('./lib/Message');
 
 passport.use(new TwitterStrategy({
 	consumerKey: settings.consumerKey,
@@ -178,7 +182,7 @@ app.get('/logout', function(req, res){
 	req.logout();
 	res.redirect('/');
 });
-app.get('/friends-on-chat', function(req,res){
+app.get('/friends-on-chat', authenticate, function(req,res){
 		//return console.log(io.of('/chat').clients())
 		/*
 			1 - get friends who i have enabled chat
@@ -217,16 +221,28 @@ app.get('/friends-on-chat', function(req,res){
 						var send;
 						var online = io.of('/chat').clients();
 						
-						//get online friends
-						send = _.map(friends, function(e){
-							return {
-								id:e._id,
-								online: typeof  _.find(online,function(o){ return o.handshake.user.id == e._id }) == "object" ? "yes" : "no",
-								pic:e.raw.profile_image_url,
-								name:e.username
-							};
+						//get offline messages count
+						var id = req.session.passport.user;
+						client.hgetall("offlinemsg:" + id, function(err, data){
+							if(err) throw err;
+							res.json(send);
+							//get online friends
+							send = _.map(friends, function(e){
+								var offline_msg = 0;
+								if(data != null){
+									offline_msg = e.id in data ? data[e.id] : 0;
+								}
+								return {
+									id:e._id,
+									online: typeof  _.find(online,function(o){ return o.handshake.user.id == e._id }) == "object" ? "yes" : "no",
+									pic:e.raw.profile_image_url,
+									name:e.username,
+									offline_count: offline_msg
+								};
+							});
+							res.json(send);
 						});
-						res.json(send);
+
 					});
 					
 					/*twit.lookupUsers(common, function(err, data){
@@ -241,6 +257,28 @@ app.get('/friends-on-chat', function(req,res){
 		});
 
 });
+
+app.get('/activity/messages/:id', authenticate, function(req,res){
+	var to = req.params.id;
+	var from = req.session.passport.user;
+	Message.find({to:{$in:[to,from]},'from.id':{$in:[to,from]}})
+	.sort({_id:1})
+	.exec(function(err, docs){
+		if(err) throw err;
+		res.json(docs);
+	});
+});
+app.get('/activity/offline-count', authenticate, function(req, res){
+});
+app.post('/activity/offline-read', authenticate, function(req, res){
+	
+});
+
+//funcs
+function authenticate(req,res,next){
+  if (req.isAuthenticated()) { return next(); }
+ 	 return res.json({error:"authentication failed"});
+}
 
 function syncFriends(id, fn){
 	User.findOne({_id:id}, function(err,user){
@@ -339,15 +377,37 @@ var chat = io.of('/chat').on('connection', function(socket){
 		socket.emit('incoming', f);
 		
 		//send to recipient
+		var online = false;
 		for(var i=0; i<users.length;i++){
 			
 			if(users[i].handshake.user._id == parseInt(data.to)){
 				users[i].emit('incoming', f);
-				//break;
+				online = true;
 			}
 			
 		}
-		//socket.emit('incoming', socket.handshake);
+		//add to queue if offline and send as dm or tweet
+		if(online == false){
+			var queue_msg = {
+				from:f.user.id,
+				to:data.to,
+				msg:data.msg
+			};
+			client.publish("test", JSON.stringify(queue_msg));
+			client.hincrby("offlinemsg:" + queue_msg.to, queue_msg.from, 1, redis.print);
+		}
+		//save to db
+		console.log("saving");
+		new Message({
+			message:data.msg,
+			from:{
+				screen_name:user.username,
+				id:user._id,
+				photo:user.raw.profile_image_url
+			},
+			to:data.to,
+			date: new Date()
+		}).save(function(err){});
 	});
 });
 
@@ -366,7 +426,7 @@ stream.on('connection', function(socket){
 		});
 		twit.stream('user', {track:user.username}, function(str){
 			str.on('data', function(data){
-				socket.emit('stream', data);
+				//socket.emit('stream', data);
 				//TODO: handle disconnects
 			});
 		});
