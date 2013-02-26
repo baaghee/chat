@@ -48,7 +48,7 @@
 	position: absolute;
 	left: 17.1%;
 	width: 43.4%;
-	height: 90%!important;
+	height: 88.5%!important;
 	background: white;
 	border-right: 1px solid #ddd;
 	padding-top: 60px;
@@ -323,7 +323,7 @@
 }
 
 #media-feed-container {
-	height: 90%;
+	height: 100%;
 	overflow: auto;
 }
 
@@ -528,4 +528,23 @@ a.button-twitter:hover {
 	font-size: 11px;
 	color: #ccc;
 	float: right;
+}
+
+.media.user-list-item.highlight {
+	background: rgb(10, 198, 255);
+}
+
+.media.user-list-item.highlight a:link, .media.user-list-item.highlight a:visited {
+	color: white!important;
+}
+
+#my-contacts .badge {
+	background: #FFECCA;
+	color: #FF8000;
+	text-shadow: none;
+	font-weight: normal;
+	padding: 3px 6px;
+	font-size: 10px;
+	margin-left: 5px;
+	line-height: -10px;
 }
