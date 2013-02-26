@@ -30,8 +30,8 @@
 	background: rgb(250,250,250);
 }
 
-#contact-container {
-	position: relative;
+#contacts-container {
+	width:17.5%;
 }
 
 #contacts-list {
@@ -440,9 +440,7 @@ a.button-twitter:hover {
 	height: 83%;
 }
 
-#my-instant-contacts {
-	width: 100%;
-}
+
 
 .invitation-icon {
 	font-weight: normal!important;

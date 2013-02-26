@@ -111,49 +111,52 @@ $(function(){
 		
 		//create new one if not
 	});
+	
+	win = $(window).height();
+
+	$("#main").css("height", win - 50);
+	$("#tweet-header").css("height", win - 60);
+	$("#chat-window").css("height", win - 50);
+	$("#my-instant-contacts").css("height", win - 80)                    
+	
+	$("#main").kendoSplitter({
+		orientation: "vertical",
+		panes: [
+		    { collapsible: false, resizable: false },
+		    { collapsible: false, resizable: false, size: "50px" }
+		]
+	});
+
+	$("#tweet-header").kendoSplitter({
+		orientation: "vertical",
+		panes: [
+		    { collapsible: false, resizable: false, size: "60px" },
+		    { collapsible: false, resizable: false, size: "600px" }
+		]
+	});
+
+	$("#my-instant-contacts").kendoSplitter({
+		orientation: "vertical",
+		panes: [
+		    { collapsible: false, resizable: true, size: "50%" },
+		    { collapsible: false, resizable: true, size: "50%" },
+		    { collapsible: false, resizable: false, size: "50%" }
+		]
+	});                    
+
+	$("#horizontal").kendoSplitter({
+		panes: [
+		    { collapsible: true ,resizable: false, size: "220px" },
+		    { collapsible: false },
+		    { collapsible: true, size: "40%" }
+		]
+	});
+
+	$(".media.user-list-item.highlight").click(function(){
+		$(this).removeClass("highlight");
+	});
+               
+                
 });
-$(document).ready(function() {
-                    $("#main").kendoSplitter({
-                        orientation: "vertical",
-                        panes: [
-                            { collapsible: false, resizable: false },
-                            { collapsible: false, resizable: false, size: "50px" }
-                        ]
-                    });
 
-                    $("#tweet-header").kendoSplitter({
-                        orientation: "vertical",
-                        panes: [
-                            { collapsible: false, resizable: false, size: "60px" },
-                            { collapsible: false, resizable: false, size: "600px" }
-                        ]
-                    });
 
-					$("#my-instant-contacts").kendoSplitter({
-                        orientation: "vertical",
-                        panes: [
-                            { collapsible: false, resizable: true, size: "50%" },
-                            { collapsible: false, resizable: true, size: "50%" },
-                            { collapsible: false, resizable: false, size: "50%" }
-                        ]
-                    });                    
-
-                    $("#horizontal").kendoSplitter({
-                        panes: [
-                            { collapsible: true ,resizable: false, size: "220px" },
-                            { collapsible: false },
-                            { collapsible: true, size: "40%" }
-                        ]
-                    });
-
-                    $(".media.user-list-item.highlight").click(function(){
-                    	$(this).removeClass("highlight");
-                    });
-
-                    win = $(window).height();
-                    
-                    $("#main").css("height", win - 50);
-                    $("#tweet-header").css("height", win - 60);
-                    $("#chat-window").css("height", win - 50);
-                    $("#my-instant-contacts").css("height", win - 80);
-                });
