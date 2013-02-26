@@ -187,5 +187,9 @@ $(document).ready(function() {
                             { collapsible: true, size: "40%" }
                         ]
                     });
+
+                    $(".media.user-list-item.highlight").click(function(){
+                    	$(this).removeClass("highlight");
+                    });
                     
                 });
