@@ -55,6 +55,11 @@ socket.on('presence', function(presence){
 
 
 $(function(){
+
+    win = $(window).height();
+    $("#main").css("height", win - 50);
+    $("#tweet-header").css("height", win - 60);
+    $("#chat-window").css("height", win - 50);
 	$(window).on('blur', function(){
 		data.focused = false;
 		if(data.unread == true){
@@ -85,10 +90,11 @@ $(function(){
 		}
 	});
 	$.getJSON('/friends-on-chat', function(res){
-		$("#my-contact").html("");
+		$("#my-contacts").html("");
 		if(!res.length) return;
 		res.forEach(function(e){
-			$("#my-contact").append('<div id="list-'+e.id+'" data-id="'+e.id+'" data-name="'+e.name+'" class="media user-list-item"><a href="#" class="user-invisible-link pull-left"><img data-src="holder.js/64x64" class="media-object"></a><div class="media"><a href="#" class="pull-left"><img data-src="holder.js/64x64" alt="64x64" style="width: 64px; height: 64px;" src="'+e.pic+'" class="media-object"></a></div><div class="media-body"><a href="#" class="media-heading">'+e.name+'</a><span id="list-presence-'+e.id+'">'+(e.online == "yes" ? "<span class='online-icon'></span>" : "") +'</span></div><br class="clear"></div>');
+			$("#my-contacts").append('<div id="list-'+e.id+'" data-id="'+e.id+'" data-name="'+e.name+'" class="media user-list-item '+(e.offline_count == 0 ? "" : " highlight " )+'"><a href="#" class="user-invisible-link pull-left"><img data-src="holder.js/64x64" class="media-object"></a><div class="media"><a href="#" class="pull-left"><img data-src="holder.js/64x64" alt="64x64" style="width: 64px; height: 64px;" src="'+e.pic+'" class="media-object"></a></div><div class="media-body"><a href="#" class="media-heading">'+e.name+'</a><span id="list-presence-'+e.id+'">'+(e.online == "yes" ? "<span class='online-icon'></span>" : "") + (e.offline_count == 0 ? "" : '<span class="badge badge-warning">'+e.offline_count+'</span>') + '</span></div><br class="clear"></div>');
+			//$("#my-contacts").append('<div id="list-'+e.id+'" data-id="'+e.id+'" data-name="'+e.name+'" class="media user-list-item"><a href="#" class="user-invisible-link pull-left"><img data-src="holder.js/64x64" class="media-object"></a><div class="media"><a href="#" class="pull-left"><img data-src="holder.js/64x64" alt="64x64" style="width: 64px; height: 64px;" src="'+e.pic+'" class="media-object"></a></div><div class="media-body"><a href="#" class="media-heading">'+e.name+'</a><span id="list-presence-'+e.id+'">'+(e.online == "yes" ? "<span class='online-icon'></span>" : "") +'</span></div><br class="clear"></div>');
 		});
 	});
 	$("body").on("click", ".user-list-item", function(){
@@ -125,36 +131,7 @@ $(function(){
 		
 		//create new one if not
 	});
-});
-
-function renderMessage(data){
-	var html = jade.render('message', data);
-	console.log(data);
-	if(typeof _data.chats[data.user.id] == 'undefined'){
-		_data.chats[data.user.id] = [];
-	}
-	if(data.user.id == window.user){
-		if(typeof _data.chats[_data.current]  == 'undefined'){
-			_data.chats[_data.current] = [];
-		}
-		_data.chats[_data.current].push(html);
-	}else{
-		_data.chats[data.user.id].push(html);
-	}
-	//notify or display if window open
-	if(_data.focused == false){
-		_data.unread = true;
-		$(window).trigger("blur");
-	}
-	if(_data.current != data.user.id && data.user.id != window.user){
-		$("#list-" + data.user.id).css("background", "red");
-		return;
-	}
-	$("#chat-window-container").append(html);
-	$("#chat-window-container").scrollTop($("#chat-window-container")[0].scrollHeight);
-	//change title
-}
-$(document).ready(function() {
+	
     $("#main").kendoSplitter({
         orientation: "vertical",
         panes: [
@@ -191,9 +168,38 @@ $(document).ready(function() {
     $(".media.user-list-item.highlight").click(function(){
     	$(this).removeClass("highlight");
     });
-
+    
     win = $(window).height();
     $("#main").css("height", win - 50);
     $("#tweet-header").css("height", win - 60);
     $("#chat-window").css("height", win - 50);
+    $("#my-instant-contacts").css("height", win - 80);
 });
+
+function renderMessage(data){
+	var html = jade.render('message', data);
+	console.log(data);
+	if(typeof _data.chats[data.user.id] == 'undefined'){
+		_data.chats[data.user.id] = [];
+	}
+	if(data.user.id == window.user){
+		if(typeof _data.chats[_data.current]  == 'undefined'){
+			_data.chats[_data.current] = [];
+		}
+		_data.chats[_data.current].push(html);
+	}else{
+		_data.chats[data.user.id].push(html);
+	}
+	//notify or display if window open
+	if(_data.focused == false){
+		_data.unread = true;
+		$(window).trigger("blur");
+	}
+	if(_data.current != data.user.id && data.user.id != window.user){
+		$("#list-" + data.user.id).css("background", "red");
+		return;
+	}
+	$("#chat-window-container").append(html);
+	$("#chat-window-container").scrollTop($("#chat-window-container")[0].scrollHeight);
+	//change title
+}
