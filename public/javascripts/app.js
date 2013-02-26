@@ -93,8 +93,13 @@ $(function(){
 		$("#my-contacts").html("");
 		if(!res.length) return;
 		res.forEach(function(e){
-			$("#my-contacts").append('<div id="list-'+e.id+'" data-id="'+e.id+'" data-name="'+e.name+'" class="media user-list-item '+(e.offline_count == 0 ? "" : " highlight " )+'"><a href="#" class="user-invisible-link pull-left"><img data-src="holder.js/64x64" class="media-object"></a><div class="media"><a href="#" class="pull-left"><img data-src="holder.js/64x64" alt="64x64" style="width: 64px; height: 64px;" src="'+e.pic+'" class="media-object"></a></div><div class="media-body"><a href="#" class="media-heading">'+e.name+'</a><span id="list-presence-'+e.id+'">'+(e.online == "yes" ? "<span class='online-icon'></span>" : "") + (e.offline_count == 0 ? "" : '<span class="badge badge-warning">'+e.offline_count+'</span>') + '</span></div><br class="clear"></div>');
+			$("#my-contacts").append('<div id="list-'+e.id+'" data-id="'+e.id+'" data-name="'+e.name+'" class="media user-list-item '+(e.offline_count == 0 ? "" : " highlight offline-message-read " )+'"><a href="#" class="user-invisible-link pull-left"><img data-src="holder.js/64x64" class="media-object"></a><div class="media"><a href="#" class="pull-left"><img data-src="holder.js/64x64" alt="64x64" style="width: 64px; height: 64px;" src="'+e.pic+'" class="media-object"></a></div><div class="media-body"><a href="#" class="media-heading">'+e.name+'</a><span id="list-presence-'+e.id+'">'+(e.online == "yes" ? "<span class='online-icon'></span>" : "") + (e.offline_count == 0 ? "" : '<span class="badge badge-warning">'+e.offline_count+'</span>') + '</span></div><br class="clear"></div>');
 			//$("#my-contacts").append('<div id="list-'+e.id+'" data-id="'+e.id+'" data-name="'+e.name+'" class="media user-list-item"><a href="#" class="user-invisible-link pull-left"><img data-src="holder.js/64x64" class="media-object"></a><div class="media"><a href="#" class="pull-left"><img data-src="holder.js/64x64" alt="64x64" style="width: 64px; height: 64px;" src="'+e.pic+'" class="media-object"></a></div><div class="media-body"><a href="#" class="media-heading">'+e.name+'</a><span id="list-presence-'+e.id+'">'+(e.online == "yes" ? "<span class='online-icon'></span>" : "") +'</span></div><br class="clear"></div>');
+		});
+	});
+	$.getJSON('/friends-not-on-chat', function(res){
+		res.forEach(function(e){
+			$("#available-contacts").append('<div id="list-1" data-id="1" data-name="hilarl" class="media user-invite-item"><a href="#" class="user-invisible-link pull-left"><img data-src="holder.js/64x64" class="media-object"></a><div class="media"><a href="#" class="pull-left"><img alt="64x64" style="width: 64px; height: 64px;" src="'+e.profile_image_url+'" class="media-object"></a></div><div class="media-body"><a href="#" class="media-heading">'+e.screen_name+'</a><span id="list-presence-1"><a href="#invite-friend" role="button" data-toggle="modal" class="invitation-icon invite">Invite <span class="invite icon-envelope-alt"></span></a></span></div><br class="clear"></div>');
 		});
 	});
 	$("body").on("click", ".user-list-item", function(){
@@ -129,7 +134,13 @@ $(function(){
 			});
 		}
 		
-		//create new one if not
+		if($(this).hasClass("offline-message-read")){
+			$.post("/activity/offline-read",{id:$(this).attr('data-id')});
+			$(this)
+			.removeClass("highlight")
+			.removeClass("offline-message-read")
+			.find(".badge").remove();
+		}
 	});
 	
     $("#main").kendoSplitter({

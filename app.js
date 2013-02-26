@@ -257,7 +257,52 @@ app.get('/friends-on-chat', authenticate, function(req,res){
 		});
 
 });
-
+app.get('/friends-not-on-chat', authenticate, function(req,res){
+	check(req, function(twit){
+		var d = domain.create();
+		d.run(function(){
+			User.findOne({_id:req.session.passport.user},{friends:1, uninvited_friends:1}, function(err, doc){
+				if(err) throw err;
+				var friends = doc.friends;
+				if(doc.uninvited_friends.length > 1){
+					return res.json(doc.uninvited_friends);
+				}
+				//random select 25 users for twitter lookup
+				var random_list = [];
+				var random_lookup = {};
+				
+				if(friends.length <= 25){
+					random_list = friends;
+				}else{
+					for(var i=1; i<=25; i++){
+						random_lookup[friends[(Math.random() * friends.length+1) << .1]] = 1;
+					}
+					for(var i in random_lookup){
+						random_list.push(i);
+					}					
+				}
+				twit.lookupUsers(random_list, function(err, data){
+					var send = _.map(data, function(e){
+						return {
+							screen_name:e.screen_name,
+							id:e.id_str,
+							profile_image_url:e.profile_image_url,
+							invited:false
+						}
+					});
+					doc.uninvited_friends.concat(send);
+					User.update({
+						_id:req.session.passport.user,
+					},{
+						$addToSet:{uninvited_friends: {$each: send}}
+					}, function(err, doc){});
+					res.json(send);
+				});
+			});
+			
+		});
+	});
+});
 app.get('/activity/messages/:id', authenticate, function(req,res){
 	var to = req.params.id;
 	var from = req.session.passport.user;
@@ -271,9 +316,11 @@ app.get('/activity/messages/:id', authenticate, function(req,res){
 app.get('/activity/offline-count', authenticate, function(req, res){
 });
 app.post('/activity/offline-read', authenticate, function(req, res){
+	client.hdel("offlinemsg:" + req.session.passport.user, req.body.id, redis.print);
+	res.end();
 	
+	//TODO: it removes redis hash key but empty hash would remain in memory if not removed.
 });
-
 //funcs
 function authenticate(req,res,next){
   if (req.isAuthenticated()) { return next(); }
@@ -393,7 +440,6 @@ var chat = io.of('/chat').on('connection', function(socket){
 				to:data.to,
 				msg:data.msg
 			};
-			client.publish("test", JSON.stringify(queue_msg));
 			client.hincrby("offlinemsg:" + queue_msg.to, queue_msg.from, 1, redis.print);
 		}
 		//save to db
