@@ -9,9 +9,19 @@ block content
 							#my-contacts
 								.pane-content
 									<div id="list-1" data-id="1" data-name="hilarl" class="media user-list-item"><a href="#" class="user-invisible-link pull-left"><img data-src="holder.js/64x64" class="media-object"></a><div class="media"><a href="#" class="pull-left"><img data-src="holder.js/64x64" alt="64x64" style="width: 64px; height: 64px;" src="'+e.pic+'" class="media-object"></a></div><div class="media-body"><a href="#" class="media-heading">hilarl</a><span id="list-presence-1"><span class='online-icon'></span></span></div><br class="clear"></div>
+
+									div.loader-large
+										span.icon-spinner.icon-spin.icon-2x
 							#available-contacts
 								.pane-content
-									<div id="list-1" data-id="1" data-name="hilarl" class="media user-invite-item"><a href="#" class="user-invisible-link pull-left"><img data-src="holder.js/64x64" class="media-object"></a><div class="media"><a href="#" class="pull-left"><img data-src="holder.js/64x64" alt="64x64" style="width: 64px; height: 64px;" src="'+e.pic+'" class="media-object"></a></div><div class="media-body"><a href="#" class="media-heading">hilarl</a><span id="list-presence-1"><a href="#" class='invite-icon'><span class="icons icon-plus-sign-alt"></span>Invite</a></div><br class="clear"></div>
+									<div id="list-1" data-id="1" data-name="hilarl" class="media user-invite-item"><a href="#" class="user-invisible-link pull-left"><img data-src="holder.js/64x64" class="media-object"></a><div class="media"><a href="#" class="pull-left"><img data-src="holder.js/64x64" alt="64x64" style="width: 64px; height: 64px;" src="'+e.pic+'" class="media-object"></a></div><div class="media-body"><a href="#" class="media-heading">hilarl</a><span id="list-presence-1"><a href="#" class='invitation-icon remove'><span class="remove icon-remove-sign"></span></a><a href="#" class='invitation-icon ok'><span class="ok icon-ok-sign"></span>Accept</a></div><br class="clear"></div>
+
+									<div id="list-1" data-id="1" data-name="hilarl" class="media user-invite-item"><a href="#" class="user-invisible-link pull-left"><img data-src="holder.js/64x64" class="media-object"></a><div class="media"><a href="#" class="pull-left"><img data-src="holder.js/64x64" alt="64x64" style="width: 64px; height: 64px;" src="'+e.pic+'" class="media-object"></a></div><div class="media-body"><a href="#" class="media-heading">hilarl</a><span id="list-presence-1"><a href="#" class='invitation-icon add'><span class="add icon-plus-sign-alt"></span>Add</a></div><br class="clear"></div>
+
+									<div id="list-1" data-id="1" data-name="hilarl" class="media user-invite-item"><a href="#" class="user-invisible-link pull-left"><img data-src="holder.js/64x64" class="media-object"></a><div class="media"><a href="#" class="pull-left"><img data-src="holder.js/64x64" alt="64x64" style="width: 64px; height: 64px;" src="'+e.pic+'" class="media-object"></a></div><div class="media-body"><a href="#" class="media-heading">hilarl</a><span id="list-presence-1"><a href="#" class='invitation-icon invite'><span class="invite icon-envelope-alt"></span>Invite</a></div><br class="clear"></div>
+
+									div.loader-large
+										span.icon-spinner.icon-spin.icon-2x
 								.pane-content	
 									div#contacts-list-footer
 										input#contacts-filter (type="text" placeholder="Type something…")
@@ -20,8 +30,8 @@ block content
 							#window-menu.pull-right
 							h3.pull-left Cog
 							.btn-group.pull-right
-								button.btn.dropdown-toggle(data-toggle='dropdown')
-									|	Actions 
+								button#chat-actions.btn.dropdown-toggle(data-toggle='dropdown')
+									span.icon-cog 
 									span.caret
 								ul.dropdown-menu
 									li
@@ -35,59 +45,131 @@ block content
 										a(href='#') Separated link
 							
 						#chat-conversation
-							www
+							div.loader-large
+										span.icon-spinner.icon-spin.icon-4x.gray
 							#chat-input-window
 								#chat-input(contenteditable='true')
 					#twitter-feed
-						.pane-content
-							div#tweet-header
+						.pane-content#tweet-header
+							.pane-content
 								h3.pull-left Twitter Feed
 								#tweet-menu.pull-right
 									.btn-group
-										button.btn.btn-inverse New Tweet
-										button.btn.dropdown-toggle(data-toggle='dropdown')
-											|	Filter 
-											span.caret
-										ul#tweet-filter.dropdown-menu
-											li
-												a(href='#') Tweets
-											li
-												a(href='#') Mentions
-											li
-												a(href='#') Images
+										button.btn.active
+											span
+												.icon-list-alt
+										button.btn
+											span
+												.icon-picture
+										button.btn
+											span
+												.icon-font
 								br.clear
-							#media-feed-container
-								.media.feed-item
-									span.pull-right.chat-item-date 12 dec
-									a.pull-left(href='#')
-										img.media-object(data-src='holder.js/64x64')
-									.media
+							.pane-content
+								#media-feed-container
+									.media.feed-item
+										span.pull-right.chat-item-date 12 dec
 										a.pull-left(href='#')
-											img.media-object(data-src='holder.js/64x64', alt='64x64', src='https://si0.twimg.com/profile_images/3021682822/6542ee4b553546c2fab6a88e0ffe78c3_normal.jpeg')
-									.media-body
-										a.media-heading(href='#') Media heading
-										br
-										p Bagaavaaiy ma kuvverikuran #MDP ge Gaumee bodu Hingaalun #mvprotest pic.twitter.com/Kz82WWNP
-										div.media-foot
-											ul.breadcrumb
-												li
-													a(href="#") 
-														span.icon-comment
-														span.divider 
-												li
-													a(href="#")
-														span.icon-reply
-														span.divider 
-												li
-													a(href="#")
-														span.icon-retweet
-														span.divider 
-												li
-													a(href="#")
-														span.icon-star
-														span.divider 
+											img.media-object(data-src='holder.js/64x64')
+										.media
+											a.pull-left(href='#')
+												img.media-object(data-src='holder.js/64x64', alt='64x64', src='https://si0.twimg.com/profile_images/3021682822/6542ee4b553546c2fab6a88e0ffe78c3_normal.jpeg')
+										.media-body
+											a.media-heading(href='#') Media heading
+											p Bagaavaaiy ma kuvverikuran #MDP ge Gaumee bodu Hingaalun #mvprotest pic.twitter.com/Kz82WWNP
+											div.media-foot
+												ul.breadcrumb
+													li
+														a(href="#") 
+															span.icon-comment
+															span.divider
+													li
+														a(href="#") 
+															span.icon-group
+															span.divider 
+													li
+														a(href="#")
+															span.icon-reply
+															span.divider 
+													li
+														a(href="#")
+															span.icon-retweet
+															span.divider 
+													li
+														a(href="#")
+															span.icon-star
+															span.divider
+									.media.feed-item
+										span.pull-right.chat-item-date 12 dec
+										a.pull-left(href='#')
+											img.media-object(data-src='holder.js/64x64')
+										.media
+											a.pull-left(href='#')
+												img.media-object(data-src='holder.js/64x64', alt='64x64', src='https://si0.twimg.com/profile_images/3021682822/6542ee4b553546c2fab6a88e0ffe78c3_normal.jpeg')
+										.media-body
+											a.media-heading(href='#') Media heading
+											p Bagaavaaiy ma kuvverikuran #MDP ge Gaumee bodu Hingaalun #mvprotest pic.twitter.com/Kz82WWNP
+											div.media-foot
+												ul.breadcrumb
+													li
+														a(href="#") 
+															span.icon-comment
+															span.divider
+													li
+														a(href="#") 
+															span.icon-group
+															span.divider 
+													li
+														a(href="#")
+															span.icon-reply
+															span.divider 
+													li
+														a(href="#")
+															span.icon-retweet
+															span.divider 
+													li
+														a(href="#")
+															span.icon-star
+															span.divider 
+									.media.feed-item
+										span.pull-right.chat-item-date 12 dec
+										a.pull-left(href='#')
+											img.media-object(data-src='holder.js/64x64')
+										.media
+											a.pull-left(href='#')
+												img.media-object(data-src='holder.js/64x64', alt='64x64', src='https://si0.twimg.com/profile_images/3021682822/6542ee4b553546c2fab6a88e0ffe78c3_normal.jpeg')
+										.media-body
+											a.media-heading(href='#') Media heading
+											br
+											img(src="https://o.twimg.com/1/proxy.jpg?t=FQQVBBiPAWh0dHA6Ly9yYWNrLjMubXNoY2RuLmNvbS9tZWRpYS9aZ2t5TURFekx6QXlMekkxTDJRMUwzWnZiR3R6ZDJGblpXNXpMams1TmpVeUxtcHdad3B3Q1hSb2RXMWlDVFUyTUhnM05UQUtaUWxxY0djLzgwNjUxOTk4LzQ3YS92b2xrc3dhZ2Vucy14bDEuanBnFAIWABIA&s=40QmVYQiN2SUi-FOOU7mVZeO9gd3v_Su6icijeNtVyE")
+											p Bagaavaaiy ma kuvverikuran #MDP ge Gaumee bodu Hingaalun #mvprotest pic.twitter.com/Kz82WWNP
+											div.media-foot
+												ul.breadcrumb
+													li
+														a(href="#") 
+															span.icon-comment
+															span.divider
+													li
+														a(href="#") 
+															span.icon-group
+															span.divider 
+													li
+														a(href="#")
+															span.icon-reply
+															span.divider 
+													li
+														a(href="#")
+															span.icon-retweet
+															span.divider 
+													li
+														a(href="#")
+															span.icon-star
+															span.divider
+									div.loader-large
+										span.icon-spinner.icon-spin.icon-4x 
 						footer#footer
 							.pane-content
-								h3 Outer splitter / bottom pane
-								p Non-resizable and non-collapsible.
+								a(href='#tweetModal', role='button', data-toggle='modal') 
+									span#new-tweet.icon-plus.btn
+								h3 instaTweet
 					

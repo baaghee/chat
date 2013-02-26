@@ -17,3 +17,13 @@ html
 		script window.user = #{locals.session.passport.user};
 	body
 		block content
+		#tweetModal.modal.hide.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
+			.modal-header
+				button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
+				h3 New Tweet
+			.modal-body
+				div#tweet-input
+				div#limit 160
+			.modal-footer
+					button.btn(data-dismiss='modal', aria-hidden='true') Close
+					button.btn.tweet-btn Tweet

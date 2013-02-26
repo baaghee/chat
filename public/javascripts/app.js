@@ -121,6 +121,14 @@ $(document).ready(function() {
                         ]
                     });
 
+                    $("#tweet-header").kendoSplitter({
+                        orientation: "vertical",
+                        panes: [
+                            { collapsible: false, resizable: false, size: "60px" },
+                            { collapsible: false, resizable: false, size: "600px" }
+                        ]
+                    });
+
 					$("#my-instant-contacts").kendoSplitter({
                         orientation: "vertical",
                         panes: [

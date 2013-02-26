@@ -77,7 +77,12 @@
 }
 
 #tweet-header {
-	top: 0;
+	height: 700px;
+	background: rgb(250,250,250);
+}
+
+#tweet-header .pane-content {
+	width: 100%!important;
 }
 
 #tweet-header h3 {
@@ -93,6 +98,27 @@
 #tweet-menu {
 	margin-right: 20px;
 	margin-top: 15px;
+}
+
+#tweet-menu .btn {
+	border: 0;
+	color: #999;
+}
+
+#tweet-menu .btn:hover {
+	background: none;
+	border: 0;
+	color: #666;
+}
+
+#new-tweet {
+	position: absolute;
+	left: 48%;
+	font-size: 18px;
+	background: #0AC6FF;
+	padding: 10px 20px;
+	margin-right: 10px;
+	color: white;
 }
 
 #chat-input {
@@ -120,15 +146,6 @@
 	width: 70px;
 }
 
-#tweet-header {
-	width: 100%;
-	position: absolute;
-}
-
-#media-feed-container {
-	margin-top: 60px;
-}
-
 .chat-bubble-arrow {
   border-color: transparent #F5F5F5 transparent transparent;
   border-style: solid;
@@ -152,6 +169,7 @@
 
 .feed-item p {
 	color: #aaa;
+	margin-left: 10px;
 }
 
 .feed-item img {
@@ -227,7 +245,7 @@
 }
 
 .user-list-item:hover {
-	background: #e3e3e3;
+	background: whiteSmoke;
 	text-decoration: none;
 	cursor: pointer;
 }
@@ -235,10 +253,11 @@
 .user-invite-item a:link, .user-list-item a:link, .user-invite-item a:visited, .user-list-item a:visited {
 	color: #666!important;
 	font-weight: bold;
+	text-decoration: none;
 }
 
 .active-user, .active-user:hover {
-	background: #D9DADD;
+	background: #eee;
 }
 
 #chat-window-header h3 {
@@ -251,7 +270,7 @@
 	width: 97%;
 	height: 60px;
 	margin: 10px;
-	border: 1px solid #eee;
+	border: 1px solid #dadada;
 }
 
 .chat-item-date {
@@ -412,7 +431,7 @@ a.button-twitter:hover {
 	margin: 10px;
 	width: 96%;
 	height: 60px;
-	border: 1px solid #eee;
+	border: 1px solid #dadada;
 }
 
 #chat-conversation {
@@ -426,19 +445,87 @@ a.button-twitter:hover {
 	height: 630px;
 }
 
-.invite-icon {
+.invitation-icon {
 	font-weight: normal!important;
 	float: right;
-	padding: 5px;
+	font-size: 10px;
+	color: #eee!important;
+	font-weight: bold;
+	padding: 5px 10px;
 	margin-top: 3px;
 }
 
-.invite-icon:hover {
+.invitation-icon:hover {
 	text-decoration: none;
 	color: #eee;
+	background: whiteSmoke;
+	border-radius: 5px;
 }
 
-.invite-icon .icons {
+.invitation-icon .ok {
 	margin-right: 5px;
 	color: #0AC6FF;
+}
+
+.invitation-icon .remove {
+	margin-right: 0px;
+	color: #999;
+}
+
+.invitation-icon .add {
+	margin-right: 5px;
+	color: #0AC6FF;
+}
+
+.invitation-icon .invite {
+	margin-right: 5px;
+	color: #0AC6FF;
+}
+
+#chat-actions {
+	margin-top: 14px;
+}
+
+.loader-large {
+	color: #0AC6FF;
+	position: absolute;
+	left: 45%;
+	top: 45%;
+	opacity: .7;
+}
+
+.gray {
+	color: #ccc;
+}
+
+.k-splitbar {
+	background: #eee;
+}
+
+.modal-header, .modal-footer  {
+	border: 0;
+}
+
+#tweetModal h3 {
+	font-weight: normal;
+	font-size: 18px;
+	color: #666;
+}
+
+#tweet-input {
+	width:100%;
+	border-radius: 5px;
+	height: 60px;
+	border: 1px solid #eee;
+}
+
+.tweet-btn {
+	background: #6DD900;
+	color: white;
+}
+
+#limit {
+	font-size: 11px;
+	color: #ccc;
+	float: right;
 }
