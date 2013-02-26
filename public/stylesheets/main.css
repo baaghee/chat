@@ -31,7 +31,7 @@
 }
 
 #contacts-container {
-	width:17.5%;
+	width: 217px;
 }
 
 #contacts-list {
@@ -74,6 +74,14 @@
 	color: #666;
 	font-weight: normal;
 	margin-left: 10px;
+}
+
+#my-contacts {
+	padding-top: 5px;
+}
+
+#available-contacts {
+	padding-top: 7px;
 }
 
 #tweet-header {
@@ -316,7 +324,7 @@
 }
 
 #contacts-filter {
-	width: 80%;
+	width: 193px;
 	border: 1px solid #ddd;
 	color: #aaa;
 	font-size: 12px;

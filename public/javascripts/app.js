@@ -146,7 +146,7 @@ $(function(){
 
 	$("#horizontal").kendoSplitter({
 		panes: [
-		    { collapsible: true ,resizable: false, size: "220px" },
+		    { collapsible: true ,resizable: false, size: "215px" },
 		    { collapsible: false },
 		    { collapsible: true, size: "40%" }
 		]
