@@ -182,7 +182,7 @@ app.get('/logout', function(req, res){
 	req.logout();
 	res.redirect('/');
 });
-app.get('/friends-on-chat', function(req,res){
+app.get('/friends-on-chat', authenticate, function(req,res){
 		//return console.log(io.of('/chat').clients())
 		/*
 			1 - get friends who i have enabled chat
@@ -221,16 +221,28 @@ app.get('/friends-on-chat', function(req,res){
 						var send;
 						var online = io.of('/chat').clients();
 						
-						//get online friends
-						send = _.map(friends, function(e){
-							return {
-								id:e._id,
-								online: typeof  _.find(online,function(o){ return o.handshake.user.id == e._id }) == "object" ? "yes" : "no",
-								pic:e.raw.profile_image_url,
-								name:e.username
-							};
+						//get offline messages count
+						var id = req.session.passport.user;
+						client.hgetall("offlinemsg:" + id, function(err, data){
+							if(err) throw err;
+							res.json(send);
+							//get online friends
+							send = _.map(friends, function(e){
+								var offline_msg = 0;
+								if(data != null){
+									offline_msg = e.id in data ? data[e.id] : 0;
+								}
+								return {
+									id:e._id,
+									online: typeof  _.find(online,function(o){ return o.handshake.user.id == e._id }) == "object" ? "yes" : "no",
+									pic:e.raw.profile_image_url,
+									name:e.username,
+									offline_count: offline_msg
+								};
+							});
+							res.json(send);
 						});
-						res.json(send);
+
 					});
 					
 					/*twit.lookupUsers(common, function(err, data){
@@ -255,6 +267,11 @@ app.get('/activity/messages/:id', authenticate, function(req,res){
 		if(err) throw err;
 		res.json(docs);
 	});
+});
+app.get('/activity/offline-count', authenticate, function(req, res){
+});
+app.post('/activity/offline-read', authenticate, function(req, res){
+	
 });
 
 //funcs
@@ -377,6 +394,7 @@ var chat = io.of('/chat').on('connection', function(socket){
 				msg:data.msg
 			};
 			client.publish("test", JSON.stringify(queue_msg));
+			client.hincrby("offlinemsg:" + queue_msg.to, queue_msg.from, 1, redis.print);
 		}
 		//save to db
 		console.log("saving");
