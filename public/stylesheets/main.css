@@ -407,7 +407,7 @@ a.button-twitter:hover {
 }
 
 #contacts {
-	width: 220px;
+	width: 17%;
 
 }
 
@@ -441,8 +441,7 @@ a.button-twitter:hover {
 }
 
 #my-instant-contacts {
-	width: 220px;
-	height: 630px;
+	width: 100%;
 }
 
 .invitation-icon {
@@ -463,7 +462,7 @@ a.button-twitter:hover {
 }
 
 .invitation-icon .ok {
-	margin-right: 5px;
+	margin-left: 5px;
 	color: #0AC6FF;
 }
 
@@ -473,12 +472,12 @@ a.button-twitter:hover {
 }
 
 .invitation-icon .add {
-	margin-right: 5px;
+	margin-left: 5px;
 	color: #0AC6FF;
 }
 
 .invitation-icon .invite {
-	margin-right: 5px;
+	margin-left: 5px;
 	color: #0AC6FF;
 }
 

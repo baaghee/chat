@@ -155,4 +155,5 @@ $(document).ready(function() {
                     $("#main").css("height", win - 50);
                     $("#tweet-header").css("height", win - 60);
                     $("#chat-window").css("height", win - 50);
+                    $("#my-instant-contacts").css("height", win - 80);
                 });
