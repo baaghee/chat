@@ -35,4 +35,21 @@ html
 			.modal-body
 				button.btn.tweet-btn Yes
 				button.btn(data-dismiss='modal', aria-hidden='true') No
+
+		#waiting-friend.modal.hide.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
+			.modal-header
+				button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
+				h3 Your chat request to Cog is pending confirmation
+			.modal-body
+				button.btn.tweet-btn Cancel Request
+				button.btn(data-dismiss='modal', aria-hidden='true') Close
+
+		#invite-friend.modal.hide.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
+			.modal-header
+				button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
+				h3 Invite Cog to instanTweet
+			.modal-body
+				p A tweet will be sent to Cog on your behalf of you inviting him to use instaTweet 
+				button.btn.tweet-btn Send Invitation
+				button.btn(data-dismiss='modal', aria-hidden='true') Cancel
 					
