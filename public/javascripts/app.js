@@ -12,6 +12,33 @@ var data = _data =  {
 
 socket.on('incoming', function(data){
 	renderMessage(data);	
+	var html = jade.render('message', data);
+	console.log(data);
+	if(typeof _data.chats[data.user.id] == 'undefined'){
+		_data.chats[data.user.id] = [];
+	}
+	if(data.user.id == window.user){
+		if(typeof _data.chats[_data.current]  == 'undefined'){
+			_data.chats[_data.current] = [];
+		}
+		_data.chats[_data.current].push(html);
+	}else{
+		_data.chats[data.user.id].push(html);
+	}
+	//notify or display if window open
+	console.log(_data.current, data.user.id);
+	if(_data.focused == false){
+		_data.unread = true;
+		$(window).trigger("blur");
+	}
+	if(_data.current != data.user.id && data.user.id != window.user){
+		$("#list-" + data.user.id).css("background", "red");
+		return;
+	}
+	$("#chat-conversations").append(html);
+	$("#chat-conversations").scrollTop($("#chat-conversations")[0].scrollHeight);
+	//change title
+	
 });
 stream.on('stream', function(data){
 	if(!data.length)
@@ -50,7 +77,7 @@ $(function(){
 			data.unread = false;
 		}
 	});
-	$("#chat-input-field").on('keyup', function(e){
+	$("#chat-input").on('keyup', function(e){
 		if(e.keyCode == 13){
 			var val = $(this).text();
 			$(this).text('');
@@ -58,10 +85,10 @@ $(function(){
 		}
 	});
 	$.getJSON('/friends-on-chat', function(res){
-		$("#my-instant-contacts").html("");
+		$("#my-contact").html("");
 		if(!res.length) return;
 		res.forEach(function(e){
-			$("#my-instant-contacts").append('<div id="list-'+e.id+'" data-id="'+e.id+'" data-name="'+e.name+'" class="media user-list-item"><a href="#" class="user-invisible-link pull-left"><img data-src="holder.js/64x64" class="media-object"></a><div class="media"><a href="#" class="pull-left"><img data-src="holder.js/64x64" alt="64x64" style="width: 64px; height: 64px;" src="'+e.pic+'" class="media-object"></a></div><div class="media-body"><a href="#" class="media-heading">'+e.name+'</a><span id="list-presence-'+e.id+'">'+(e.online == "yes" ? "<span class='online-icon'></span>" : "") +'</span></div><br class="clear"></div>');
+			$("#my-contact").append('<div id="list-'+e.id+'" data-id="'+e.id+'" data-name="'+e.name+'" class="media user-list-item"><a href="#" class="user-invisible-link pull-left"><img data-src="holder.js/64x64" class="media-object"></a><div class="media"><a href="#" class="pull-left"><img data-src="holder.js/64x64" alt="64x64" style="width: 64px; height: 64px;" src="'+e.pic+'" class="media-object"></a></div><div class="media-body"><a href="#" class="media-heading">'+e.name+'</a><span id="list-presence-'+e.id+'">'+(e.online == "yes" ? "<span class='online-icon'></span>" : "") +'</span></div><br class="clear"></div>');
 		});
 	});
 	$("body").on("click", ".user-list-item", function(){
@@ -73,13 +100,17 @@ $(function(){
 		var id = $(this).attr('data-id');
 		data.current = id;
 		$("#chat-window-header h3").text($(this).attr('data-name'));
+		$("#chat-conversations").html('');
+		
+		data.current = $(this).attr('data-id');
+		$("#chat-window h3").text($(this).attr('data-name'));
 		
 		//see if existing chat exists
 		
 		//display chat if found
 		if(typeof data.chats[data.current] != 'undefined'){
 			data.chats[data.current].forEach(function(msg){
-				$("#chat-window-container").append(msg);
+				$("#chat-conversations").append(msg);
 			});
 		}else{
 			$.getJSON('/activity/messages/' + id, function(data){
@@ -123,3 +154,38 @@ function renderMessage(data){
 	$("#chat-window-container").scrollTop($("#chat-window-container")[0].scrollHeight);
 	//change title
 }
+$(document).ready(function() {
+                    $("#main").kendoSplitter({
+                        orientation: "vertical",
+                        panes: [
+                            { collapsible: false, resizable: false },
+                            { collapsible: false, resizable: false, size: "50px" }
+                        ]
+                    });
+
+                    $("#tweet-header").kendoSplitter({
+                        orientation: "vertical",
+                        panes: [
+                            { collapsible: false, resizable: false, size: "60px" },
+                            { collapsible: false, resizable: false, size: "600px" }
+                        ]
+                    });
+
+					$("#my-instant-contacts").kendoSplitter({
+                        orientation: "vertical",
+                        panes: [
+                            { collapsible: false, resizable: true, size: "50%" },
+                            { collapsible: false, resizable: true, size: "50%" },
+                            { collapsible: false, resizable: false, size: "50%" }
+                        ]
+                    });                    
+
+                    $("#horizontal").kendoSplitter({
+                        panes: [
+                            { collapsible: true ,resizable: false, size: "220px" },
+                            { collapsible: false },
+                            { collapsible: true, size: "40%" }
+                        ]
+                    });
+                    
+                });

@@ -4,13 +4,26 @@ html
 		title fgdf
 		link(rel='stylesheet', href='/stylesheets/bootstrap.css')
 		link(rel='stylesheet', href='/stylesheets/bootstrap-responsive.css')
+		link(rel='stylesheet', href='/styles/kendo.common.min.css')
+		link(rel='stylesheet', href='/styles/kendo.metro.min.css')
 		link(rel='stylesheet', href='/stylesheets/main.css')
 		link(rel='stylesheet', href='/stylesheets/font-awesome.min.css')
 		script(src='/socket.io/socket.io.js')
-		script(src='/javascripts/jquery.js')
+		script(src='/js/jquery.min.js')
 		script(src='/javascripts/bootstrap.min.js')
+		script(src='/js/kendo.web.min.js')
 		script(src='/templates.js')
 		script(src='/javascripts/app.js')
 		script window.user = #{locals.session.passport.user};
 	body
 		block content
+		#tweetModal.modal.hide.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
+			.modal-header
+				button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
+				h3 New Tweet
+			.modal-body
+				div#tweet-input
+				div#limit 160
+			.modal-footer
+					button.btn(data-dismiss='modal', aria-hidden='true') Close
+					button.btn.tweet-btn Tweet
