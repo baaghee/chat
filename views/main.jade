@@ -18,11 +18,11 @@ block content
 								.pane-content
 									<div id="list-1" data-id="1" data-name="hilarl" class="media user-invite-item"><a href="#" class="user-invisible-link pull-left"><img data-src="holder.js/64x64" class="media-object"></a><div class="media"><a href="#" class="pull-left"><img data-src="holder.js/64x64" alt="64x64" style="width: 64px; height: 64px;" src="'+e.pic+'" class="media-object"></a></div><div class="media-body"><a href="#" class="media-heading">hilarl</a><span id="list-presence-1"><a href="#" class='invitation-icon remove'><span class="remove icon-remove-sign"></span></a><a href="#accept-friend" class='invitation-icon ok'>Accept <span class="ok icon-ok-sign"></span></a></div><br class="clear"></div>
 
-									<div id="list-1" data-id="1" data-name="hilarl" class="media user-invite-item"><a href="#" class="user-invisible-link pull-left"><img data-src="holder.js/64x64" class="media-object"></a><div class="media"><a href="#" class="pull-left"><img data-src="holder.js/64x64" alt="64x64" style="width: 64px; height: 64px;" src="'+e.pic+'" class="media-object"></a></div><div class="media-body"><a href="#" class="media-heading">hilarl</a><span id="list-presence-1"><a href="#accept-friend" role='button' data-toggle='modal' class='invitation-icon add'>Waiting <span class="add icon-time"></span></a></div><br class="clear"></div>
+									<div id="list-1" data-id="1" data-name="hilarl" class="media user-invite-item"><a href="#" class="user-invisible-link pull-left"><img data-src="holder.js/64x64" class="media-object"></a><div class="media"><a href="#" class="pull-left"><img data-src="holder.js/64x64" alt="64x64" style="width: 64px; height: 64px;" src="'+e.pic+'" class="media-object"></a></div><div class="media-body"><a href="#" class="media-heading">hilarl</a><span id="list-presence-1"><a href="#waiting-friend" role='button' data-toggle='modal' class='invitation-icon add'>Waiting <span class="add icon-time"></span></a></div><br class="clear"></div>
 
 									<div id="list-1" data-id="1" data-name="hilarl" class="media user-invite-item"><a href="#" class="user-invisible-link pull-left"><img data-src="holder.js/64x64" class="media-object"></a><div class="media"><a href="#" class="pull-left"><img data-src="holder.js/64x64" alt="64x64" style="width: 64px; height: 64px;" src="'+e.pic+'" class="media-object"></a></div><div class="media-body"><a href="#" class="media-heading">hilarl</a><span id="list-presence-1"><a href="#accept-friend" role='button' data-toggle='modal' class='invitation-icon add'>Add <span class="add icon-plus-sign-alt"></span></a></div><br class="clear"></div>
 
-									<div id="list-1" data-id="1" data-name="hilarl" class="media user-invite-item"><a href="#" class="user-invisible-link pull-left"><img data-src="holder.js/64x64" class="media-object"></a><div class="media"><a href="#" class="pull-left"><img data-src="holder.js/64x64" alt="64x64" style="width: 64px; height: 64px;" src="'+e.pic+'" class="media-object"></a></div><div class="media-body"><a href="#" class="media-heading">hilarl</a><span id="list-presence-1"><a href="#" class='invitation-icon invite'>Invite <span class="invite icon-envelope-alt"></span></a></div><br class="clear"></div>
+									<div id="list-1" data-id="1" data-name="hilarl" class="media user-invite-item"><a href="#" class="user-invisible-link pull-left"><img data-src="holder.js/64x64" class="media-object"></a><div class="media"><a href="#" class="pull-left"><img data-src="holder.js/64x64" alt="64x64" style="width: 64px; height: 64px;" src="'+e.pic+'" class="media-object"></a></div><div class="media-body"><a href="#" class="media-heading">hilarl</a><span id="list-presence-1"><a href="#invite-friend" role='button' data-toggle='modal'  class='invitation-icon invite'>Invite <span class="invite icon-envelope-alt"></span></a></div><br class="clear"></div>
 
 									div.loader-large
 										span.icon-spinner.icon-spin.icon-2x
@@ -32,7 +32,7 @@ block content
 					#chat-window
 						#chat-window-header
 							#window-menu.pull-right
-							h3.pull-left Cog
+							h3.pull-left _
 							.btn-group.pull-right
 								button#chat-actions.btn.dropdown-toggle(data-toggle='dropdown')
 									span.icon-cog 
@@ -45,10 +45,11 @@ block content
 									li
 										a(href='#') Something else here
 						#chat-conversation
+							p#initial-chat Select a user from the left menu to start a conversation
 							div.loader-large
 										span.icon-spinner.icon-spin.icon-4x.gray
-							#chat-input-window
-								#chat-input(contenteditable='true')
+						#chat-input-window
+							#chat-input(contenteditable='true')
 					#twitter-feed
 						.pane-content#tweet-header
 							.pane-content
@@ -172,4 +173,28 @@ block content
 								a(href='#tweetModal', role='button', data-toggle='modal') 
 									span#new-tweet.icon-plus.btn
 								h3 instaTweet
+								div#profile-pic
+									img.pull-right(src="http://a0.twimg.com/profile_images/3029635725/2ac4ac92b73aa45a05c985d01bb0c05a_normal.jpeg")
+									a.pull-right(href="#") Hilarl
+									ul#main-nav.breadcrumb.pull-right
+													li
+														a(href="#") 
+															span.icon-home
+															span.divider
+													li
+														a(href="#") 
+															span.icon-comments
+															span.divider 
+													li
+														a(href="#")
+															span.icon-group
+															span.divider 
+													li
+														a(href="#")
+															span.icon-cog
+															span.divider 
+													li
+														a(href="logout/")
+															span.icon-off
+															span.divider
 					

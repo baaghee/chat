@@ -443,9 +443,14 @@ a.button-twitter:hover {
 }
 
 #chat-conversation {
+	position: absolute;
+	top: 53px;
+	left: 0;
+	width: 100%;
 	margin-top: 10px;
 	border-bottom: 1px solid #eee;
-	height: 83%;
+	height: 76%;
+	overflow: auto;
 }
 
 
@@ -511,7 +516,16 @@ a.button-twitter:hover {
 	border: 0;
 }
 
-#tweetModal h3 {
+.modal-body {
+	text-align: center;
+}
+
+.modal-body p {
+	padding-bottom: 10px;
+	color: #666;
+}
+
+#tweetModal h3, .modal-header h3 {
 	font-weight: normal;
 	font-size: 18px;
 	color: #666;
@@ -553,4 +567,51 @@ a.button-twitter:hover {
 	font-size: 10px;
 	margin-left: 5px;
 	line-height: -10px;
+}
+
+#footer h3 {
+	margin-top: 7px;
+	margin-left: 10px;
+	font-weight: normal;
+	color: #ccc;
+}
+
+#profile-pic {
+	position: absolute;
+	right: 10px;
+	bottom: 11px;
+	padding-left: 10px;
+}
+
+#profile-pic a {
+	margin-right: 10px;
+	color: #999;
+	font-weight: bold;
+	font-size: 12px;
+	margin-top: 7px;
+}
+
+#profile-pic img {
+	width: 30px;
+}
+
+#main-nav {
+	padding-top: 3px;
+}
+
+#main-nav a {
+	color: #777;
+	text-shadow: none;
+	font-size: 18px;
+}
+
+#main-nav a:hover {
+	text-decoration: none;
+	color: #ccc;
+}
+
+#initial-chat {
+	text-align: center;
+	color: #ccc;
+	margin-top: 40%;
 }
