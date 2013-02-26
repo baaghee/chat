@@ -443,9 +443,14 @@ a.button-twitter:hover {
 }
 
 #chat-conversation {
+	position: absolute;
+	top: 53px;
+	left: 0;
+	width: 100%;
 	margin-top: 10px;
 	border-bottom: 1px solid #eee;
-	height: 83%;
+	height: 76%;
+	overflow: auto;
 }
 
 
@@ -603,4 +608,10 @@ a.button-twitter:hover {
 #main-nav a:hover {
 	text-decoration: none;
 	color: #ccc;
+}
+
+#initial-chat {
+	text-align: center;
+	color: #ccc;
+	margin-top: 40%;
 }
