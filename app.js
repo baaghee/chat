@@ -23,6 +23,15 @@ var express = require('express')
   , jade_browser = require('jade-browser')
   , redis = require('redis')
   , client = redis.createClient()
+  , RedisStore = require('socket.io/lib/stores/redis')
+
+io.set('store', new RedisStore({
+  redisPub : redis.createClient()
+, redisSub : redis.createClient()
+, redisClient : redis.createClient()
+}));
+
+var lookup = require("./lib/Lookup");
 
 require('date-utils');
 
@@ -53,12 +62,6 @@ var User = require('./lib/User');
 
 var registered_ids = [];
 
-User.find({}, {_id:1}, function(err, users){
-	users.forEach(function(e){
-		registered_ids.push(e._id);
-	});
-});
-
 //Message
 var Message = require('./lib/Message');
 
@@ -70,6 +73,7 @@ passport.use(new TwitterStrategy({
 	function(token, tokenSecret, profile, done) {
 		// register user if not registered
 		User.findOne({_id:profile.id}, function(err, user){
+			var r_ids = registered_ids;
 			if(!user){
 				new User({
 					_id:profile.id
@@ -82,8 +86,12 @@ passport.use(new TwitterStrategy({
 				})
 				.save(function(err, user){
 					if(err) throw err;
-					registered_ids.push(profile.id);
-					done(null, user);
+					lookup.add(profile.id);
+					
+					//get users friends and add them to db
+					syncFriends(profile.id, function(){
+						done(null, user);
+					});
 				});
 			}else{
 				// update user
@@ -182,7 +190,57 @@ app.get('/logout', function(req, res){
 	req.logout();
 	res.redirect('/');
 });
-app.get('/friends-on-chat', authenticate, function(req,res){
+app.get('/friends-on-chat', authenticate, function(req, res){
+	var id = req.session.passport.user;
+	
+	//get my friends who are registered
+	myFriendships(id, false, function(err, friendships){
+		//check online friends
+		var ids = [];
+		for(var i=0; i<friendships.length; i++){
+			ids.push(friendships[i].id);
+		}
+		var random_set  = 'friends:' + id + ":" + (Math.random() * 150000 +1 << .1);
+		client.sadd(random_set, ids, function(){
+			//get online friends
+			client.sinter(random_set, "connected", function(err, online){
+				
+				//filter online friends
+				client.hgetall("offlinemsg:" + id, function(err, data){
+					var online_friends = [];
+					for(var i=0; i<friendships.length; i++){
+						var offline_msg = 0;
+						if(data != null){
+							offline_msg = friendships[i].id in data ? data[friendships[i].id] : 0;
+						}
+						if(online.indexOf(friendships[i].id) != -1){
+							online_friends.push({
+								offline_count: offline_msg,
+								id: friendships[i].id,
+								screen_name: friendships[i].screen_name,
+								profile_image_url: friendships[i].profile_image_url,
+								status:'online'
+							});
+						}else{
+							online_friends.push({
+								offline_count: offline_msg,
+								id: friendships[i].id,
+								screen_name: friendships[i].screen_name,
+								profile_image_url: friendships[i].profile_image_url,
+								status:'offline'
+							});							
+						}
+					}
+					res.json(online_friends);
+				});
+			});
+		})
+	});
+});
+
+//DEPRECATED
+app.get('/friends-on-chats', authenticate, function(req,res){
+		return res.end();
 		//return console.log(io.of('/chat').clients())
 		/*
 			1 - get friends who i have enabled chat
@@ -203,8 +261,9 @@ app.get('/friends-on-chat', authenticate, function(req,res){
 						throw Error("Data not fetch");
 					}
 					var common = [];
+					var r_ids = registered_ids;
 					for(var i=0; i<data.length; i++){
-						if(registered_ids.indexOf(data[i]) !== -1){
+						if(r_ids.indexOf(data[i]) !== -1){
 							common.push(data[i]);
 						}
 					}
@@ -216,7 +275,7 @@ app.get('/friends-on-chat', authenticate, function(req,res){
 						return res.json({});
 					}
 					
-					registeredFriends(id, false, function(err, friends){
+					myFriendships(id, false, function(err, friends){
 						if(err) throw err;
 						var send;
 						var online = io.of('/chat').clients();
@@ -225,7 +284,6 @@ app.get('/friends-on-chat', authenticate, function(req,res){
 						var id = req.session.passport.user;
 						client.hgetall("offlinemsg:" + id, function(err, data){
 							if(err) throw err;
-							res.json(send);
 							//get online friends
 							send = _.map(friends, function(e){
 								var offline_msg = 0;
@@ -257,20 +315,19 @@ app.get('/friends-on-chat', authenticate, function(req,res){
 		});
 
 });
-app.get('/friends-not-on-chat', authenticate, function(req,res){
+app.get('/tweeps-to-invite', authenticate, function(req, res){
 	check(req, function(twit){
 		var d = domain.create();
 		d.run(function(){
-			User.findOne({_id:req.session.passport.user},{friends:1, uninvited_friends:1}, function(err, doc){
-				if(err) throw err;
-				var friends = doc.friends;
+			User.findOne({_id:req.session.passport.user},{friends:1, uninvited_friends:1, request_friends:1, friendships:1}, function(err, doc){
 				if(doc.uninvited_friends.length > 1){
 					return res.json(doc.uninvited_friends);
 				}
+				var friends = doc.friends;
 				//random select 25 users for twitter lookup
 				var random_list = [];
 				var random_lookup = {};
-				
+	
 				if(friends.length <= 25){
 					random_list = friends;
 				}else{
@@ -296,8 +353,49 @@ app.get('/friends-not-on-chat', authenticate, function(req,res){
 					},{
 						$addToSet:{uninvited_friends: {$each: send}}
 					}, function(err, doc){});
-					res.json(send);
+
+					//get my friends on chat
+					lookup.intersect(friends, function(err, data){
+						getUserProfiles(data, doc.request_friends, function(err, data){
+							res.json(data);
+						});
+					});
+		
 				});
+			});
+		});
+	});
+
+});
+app.get('/friends-not-added', authenticate, function(req,res){
+	check(req, function(twit){
+		var d = domain.create();
+		d.run(function(){
+			User.findOne({_id:req.session.passport.user},{friends:1, uninvited_friends:1, request_friends:1, friendships:1}, function(err, doc){
+				if(err) throw err;
+				var friends = doc.friends;
+				
+				//remove friended people from friends when iterating 
+				for(var f=0; f<doc.friendships.length; f++){
+					var item = doc.friendships[f].id;
+					if(friends.indexOf(item) != -1){
+						friends.splice(friends.indexOf(item));
+					}
+				}
+				
+				if(doc.uninvited_friends.length > 1){
+					//get friends who are registered in the app
+					return lookup.intersect(friends, function(err, data){
+						//get profiles of users
+						getUserProfiles(data, doc.request_friends, function(err, data){
+							console.log();
+							res.json(data);
+						});
+					});
+				}else{
+					res.json([]);
+				}
+				
 			});
 			
 		});
@@ -321,11 +419,98 @@ app.post('/activity/offline-read', authenticate, function(req, res){
 	
 	//TODO: it removes redis hash key but empty hash would remain in memory if not removed.
 });
+app.post('/create-friendship', authenticate, function(req, res){
+	var friend = req.body.friend;
+	//request
+	User.findOne({_id:req.session.passport.user}, function(err, me){
+		var details = {
+			"id": me._id,
+			"screen_name": me.raw.screen_name,
+			"profile_image_url": me.raw.profile_image_url
+		};
+		User.update({_id:friend}, {$push:{request_friends:details}}, function(err){
+			//find sockets of friend and send notification
+			client.smembers('open_connections:' + friend, function(err, socket_ids){
+				if(err) throw err;
+				if(socket_ids == null){
+					return;
+				}
+			});
+			
+			//TODO: meaningful res.end
+			res.end();
+		});
+	});
+	
+});
+app.post('/accept-friendship', authenticate, function(req,res){
+	var friend = req.body.friend;
+	
+	//check if friend exists in my requests
+	User.findOne({_id:req.session.passport.user, "request_friends.id":friend}, {raw:1,  request_friends:1}, function(err, me){
+		if(err) throw err;
+		if(typeof me != 'object'){
+			return res.json({error:"unable to make friend request"});
+		}
+		
+		/*make friendship*/
+		
+		var friendships = {
+			me:{
+				screen_name: me.raw.screen_name,
+				profile_image_url:me.raw.profile_image_url,
+				id:req.session.passport.user
+			},
+			friend:{}
+		};
+		//find friend details
+		var request_friends = me.request_friends;
+		for(var i=0; i<request_friends.length; i++){
+			if(request_friends[i].id == friend){
+				friendships.friend['screen_name'] = request_friends[i].screen_name;
+				friendships.friend['id'] = request_friends[i].id;
+				friendships.friend['profile_image_url'] = request_friends[i].profile_image_url;
+				break;
+			}
+		}
+		//console.log(friendships);process.exit();
+		User.update({_id:req.session.passport.user},{$push:{friendships:friendships.friend}}, function(err){});
+		User.update({_id:friend},{$push:{friendships:friendships.me}}, function(err){});
+		User.update({_id:req.session.passport.user},{$pull:{"request_friends":{id:friend}}}, function(err){});
+		res.end();
+	});
+});
 //funcs
 function authenticate(req,res,next){
   if (req.isAuthenticated()) { return next(); }
  	 return res.json({error:"authentication failed"});
 }
+function getUserProfiles(array, request_friends, fn){
+	//get requests ive made
+	User.find({_id:{$in:array}}, {'raw':1}, function(err, docs){
+		var arr=[];
+		for(var i=0; i<docs.length; i++){
+			var user = docs[i];
+			
+			//check if user has requested to chat
+			var requested = false;
+			for(var u=0; u<request_friends.length; u++){
+				if(request_friends[u].id == user._id){
+					requested = true;
+					break;
+				}
+			}
+			arr.push({
+				id:user._id,
+				screen_name:user.raw.screen_name,
+				profile_image_url:user.raw.profile_image_url,
+				requested:requested
+			});
+		}
+		fn(null, arr);
+	});
+}
+
 
 function syncFriends(id, fn){
 	User.findOne({_id:id}, function(err,user){
@@ -362,25 +547,37 @@ function syncFriends(id, fn){
 
 }
 
-function registeredFriends(id, simple, fn){
-	User.findOne({_id:id}, function(err,user){
+function myFriendships(id, simple, fn){
+	User.findOne({_id:id}, {friendships:1}, function(err,user){
 		if(err) throw err;
-		if(!user.friends || user.friends.length == 0){
+		if(!user.friendships || user.friendships.length == 0){
 			return fn(null, []);
 		}
-		if(simple){
-			return fn(null, user.friends);	
+		//take all ids of friendships
+		var friendships = [];
+		for(var i=0;i<user.friendships.length; i++){
+			friendships.push(user.friendships[i].id);
 		}
-		User.find({_id:{$in:user.friends}}, function(err, friends){
-			if(err) throw err;
-			fn(null, friends);
-		});
+		
+		if(simple){
+			return fn(null, friendships);	
+		}
+		
+		fn(null, user.friendships);
 	});
 }
 
 // socket io
 var chat = io.of('/chat').on('connection', function(socket){
+	//add status to db	
 	var id = socket.handshake.user._id;
+	
+	// add to open connections for client
+	client.sadd('open_connections:' + id, socket.id, redis.print);
+	
+	//add to global presence list
+	client.sadd('connected', id, redis.print);
+
 	//set socket
 	socket.set("_id", id);
 	
@@ -388,7 +585,7 @@ var chat = io.of('/chat').on('connection', function(socket){
 	//TODO: right now all the friend are being looped. Change this to 
 	//friends who the client already have allowed
 	
-	registeredFriends(id, true, function(err, friends){
+	myFriendships(id, true, function(err, friends){
 		friends.forEach(function(friend){
 			chat.clients().forEach(function(online){
 				if(online.handshake.user._id == friend){
@@ -398,7 +595,16 @@ var chat = io.of('/chat').on('connection', function(socket){
 		});
 	});
 	socket.on('disconnect', function(){
-		registeredFriends(id, true, function(err, friends){
+	
+		//remove connection label from redis
+		client.srem('open_connections:' + id, socket.id, redis.print);
+		client.exists('open_connections:' + id, function(err, exist){
+			if(exist == 0){
+				client.srem("connected", id, redis.print);
+			}
+		});		
+		
+		myFriendships(id, true, function(err, friends){
 			friends.forEach(function(friend){
 				chat.clients().forEach(function(online){
 					if(online.handshake.user._id == friend){
@@ -456,7 +662,6 @@ var chat = io.of('/chat').on('connection', function(socket){
 		}).save(function(err){});
 	});
 });
-
 //
 
 var stream = io.of('/stream');

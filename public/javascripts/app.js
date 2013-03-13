@@ -89,17 +89,52 @@ $(function(){
 			socket.emit('message', {msg:val, to:data.current});
 		}
 	});
+	$("body").on('click', '.add-friend', function(){
+		var self = $(this);
+		var friend = self.parent().parent().parent().attr('data-id');
+		$.post("/create-friendship", {friend:friend});
+	});
+	$("body").on('click', '.friendship-action', function(){
+		var self = $(this);
+		var friend = self.parent().parent().parent().attr('data-id');
+		$.post('/accept-friendship', {friend:friend});
+	});
 	$.getJSON('/friends-on-chat', function(res){
 		$("#my-contacts").html("");
 		if(!res.length) return;
 		res.forEach(function(e){
-			$("#my-contacts").append('<div id="list-'+e.id+'" data-id="'+e.id+'" data-name="'+e.name+'" class="media user-list-item '+(e.offline_count == 0 ? "" : " highlight offline-message-read " )+'"><a href="#" class="user-invisible-link pull-left"><img data-src="holder.js/64x64" class="media-object"></a><div class="media"><a href="#" class="pull-left"><img data-src="holder.js/64x64" alt="64x64" style="width: 64px; height: 64px;" src="'+e.pic+'" class="media-object"></a></div><div class="media-body"><a href="#" class="media-heading">'+e.name+'</a><span id="list-presence-'+e.id+'">'+(e.online == "yes" ? "<span class='online-icon'></span>" : "") + (e.offline_count == 0 ? "" : '<span class="badge badge-warning">'+e.offline_count+'</span>') + '</span></div><br class="clear"></div>');
+			$("#my-contacts").append('<div id="list-'+e.id+'" data-id="'+e.id+'" data-name="'+e.screen_name+'" class="media user-list-item '+(e.offline_count == 0 ? "" : " highlight offline-message-read " )+'"><a href="#" class="user-invisible-link pull-left"><img data-src="holder.js/64x64" class="media-object"></a><div class="media"><a href="#" class="pull-left"><img data-src="holder.js/64x64" alt="64x64" style="width: 64px; height: 64px;" src="'+e.profile_image_url+'" class="media-object"></a></div><div class="media-body"><a href="#" class="media-heading">'+e.screen_name+'</a><span id="list-presence-'+e.id+'">'+(e.status == "online" ? "<span class='online-icon'></span>" : "") + (e.offline_count == 0 ? "" : '<span class="badge badge-warning">'+e.offline_count+'</span>') + '</span></div><br class="clear"></div>');
 			//$("#my-contacts").append('<div id="list-'+e.id+'" data-id="'+e.id+'" data-name="'+e.name+'" class="media user-list-item"><a href="#" class="user-invisible-link pull-left"><img data-src="holder.js/64x64" class="media-object"></a><div class="media"><a href="#" class="pull-left"><img data-src="holder.js/64x64" alt="64x64" style="width: 64px; height: 64px;" src="'+e.pic+'" class="media-object"></a></div><div class="media-body"><a href="#" class="media-heading">'+e.name+'</a><span id="list-presence-'+e.id+'">'+(e.online == "yes" ? "<span class='online-icon'></span>" : "") +'</span></div><br class="clear"></div>');
 		});
 	});
-	$.getJSON('/friends-not-on-chat', function(res){
+	$.getJSON('/tweeps-to-invite', function(res){
+		$("#my-contacts").html("");
+		if(!res.length) return;
 		res.forEach(function(e){
-			$("#available-contacts").append('<div id="list-1" data-id="1" data-name="hilarl" class="media user-invite-item"><a href="#" class="user-invisible-link pull-left"><img data-src="holder.js/64x64" class="media-object"></a><div class="media"><a href="#" class="pull-left"><img alt="64x64" style="width: 64px; height: 64px;" src="'+e.profile_image_url+'" class="media-object"></a></div><div class="media-body"><a href="#" class="media-heading">'+e.screen_name+'</a><span id="list-presence-1"><a href="#invite-friend" role="button" data-toggle="modal" class="invitation-icon invite">Invite <span class="invite icon-envelope-alt"></span></a></span></div><br class="clear"></div>');
+		});
+		for(var i=0;i<res.length; i++){
+			var e = res[i];
+			var hidden = false;
+			if(i > 7){
+				hidden = true;
+			}
+			var type = e.requested === true ? '<span><a href="#" class="invitation-icon remove friendship-action"><span class="remove icon-remove-sign"></span></a><a href="#accept-friend" class="invitation-icon ok friendship-action">Accept <span class="ok icon-ok-sign"></span></a></span>' : '<span id="list-presence-'+e.id+'"><a href="#accept-friend" role="button" data-toggle="modal" class="invitation-icon add-friend">Invite <span class="add icon-plus-sign-alt"></span></a></span>';
+			$("#available-contacts").append('<div id="list-'+e.id+'" data-id="'+e.id+'" data-name="'+e.name+'" class="media user-invite-item" '+(hidden ? ' style="display:none"' : "" )+'><a href="#" class="user-invisible-link pull-left add-friend"><img data-src="holder.js/64x64" class="media-object"></a><div class="media"><a href="#" class="pull-left"><img alt="64x64" style="width: 64px; height: 64px;" src="'+e.profile_image_url+'" class="media-object"></a></div><div class="media-body"><a href="#" class="media-heading">'+(e.screen_name.length > 10 ? e.screen_name.substr(0,8) + '...' : e.screen_name)+'</a>'+type+'</div><br class="clear"></div>');			
+		}
+		$("#my-instant-contacts").kendoSplitter({
+		    orientation: "vertical",
+		    panes: [
+		        { collapsible: false, resizable: true, size: "50%" },
+		        { collapsible: false, resizable: true, size: "50%" },
+		        { collapsible: false, resizable: false, size: "50%" }
+		    ]
+		});                    
+
+	});
+	$.getJSON('/friends-not-added', function(res){
+		res.forEach(function(e){
+			var type = e.requested === true ? '<span><a href="#" class="invitation-icon remove friendship-action"><span class="remove icon-remove-sign"></span></a><a href="#accept-friend" class="invitation-icon ok friendship-action">Accept <span class="ok icon-ok-sign"></span></a></span>' : '<span id="list-presence-'+e.id+'"><a href="#accept-friend" role="button" data-toggle="modal" class="invitation-icon add-friend">Add <span class="add icon-plus-sign-alt"></span></a></span>';
+			$("#available-contacts").append('<div id="list-'+e.id+'" data-id="'+e.id+'" data-name="'+e.name+'" class="media user-invite-item"><a href="#" class="user-invisible-link pull-left add-friend"><img data-src="holder.js/64x64" class="media-object"></a><div class="media"><a href="#" class="pull-left"><img alt="64x64" style="width: 64px; height: 64px;" src="'+e.profile_image_url+'" class="media-object"></a></div><div class="media-body"><a href="#" class="media-heading">'+e.screen_name+'</a>'+type+'</div><br class="clear"></div>');
 		});
 	});
 	$("body").on("click", ".user-list-item", function(){
@@ -159,14 +194,6 @@ $(function(){
         ]
     });
 
-	$("#my-instant-contacts").kendoSplitter({
-        orientation: "vertical",
-        panes: [
-            { collapsible: false, resizable: true, size: "50%" },
-            { collapsible: false, resizable: true, size: "50%" },
-            { collapsible: false, resizable: false, size: "50%" }
-        ]
-    });                    
 
     $("#horizontal").kendoSplitter({
         panes: [

@@ -1,0 +1,70 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/local/bin/node',
+1 verbose cli   '/usr/local/bin/npm',
+1 verbose cli   'install',
+1 verbose cli   '--save',
+1 verbose cli   'redisstore' ]
+2 info using npm@1.2.0
+3 info using node@v0.8.17
+4 verbose read json /home/iuthisaam/projects/chat/package.json
+5 warn package.json application-name@0.0.1 No README.md file found!
+6 verbose read json /home/iuthisaam/projects/chat/node_modules/cachetree/package.json
+7 verbose read json /home/iuthisaam/projects/chat/node_modules/passport-twitter/package.json
+8 verbose read json /home/iuthisaam/projects/chat/node_modules/mongoose/package.json
+9 verbose read json /home/iuthisaam/projects/chat/node_modules/kue/package.json
+10 verbose read json /home/iuthisaam/projects/chat/node_modules/jade-browser/package.json
+11 verbose read json /home/iuthisaam/projects/chat/node_modules/connect-mongo/package.json
+12 verbose read json /home/iuthisaam/projects/chat/node_modules/jade/package.json
+13 verbose read json /home/iuthisaam/projects/chat/node_modules/hiredis/package.json
+14 verbose read json /home/iuthisaam/projects/chat/node_modules/redis/package.json
+15 verbose read json /home/iuthisaam/projects/chat/node_modules/stylus/package.json
+16 verbose read json /home/iuthisaam/projects/chat/node_modules/connect-domain/package.json
+17 verbose read json /home/iuthisaam/projects/chat/node_modules/passport.socketio/package.json
+18 verbose read json /home/iuthisaam/projects/chat/node_modules/express/package.json
+19 verbose read json /home/iuthisaam/projects/chat/node_modules/date-utils/package.json
+20 verbose read json /home/iuthisaam/projects/chat/node_modules/socket.io/package.json
+21 verbose read json /home/iuthisaam/projects/chat/node_modules/twitter/package.json
+22 verbose read json /home/iuthisaam/projects/chat/node_modules/underscore/package.json
+23 verbose read json /home/iuthisaam/projects/chat/node_modules/ntwitter/package.json
+24 verbose read json /home/iuthisaam/projects/chat/node_modules/passport/package.json
+25 verbose read json /home/iuthisaam/projects/chat/node_modules/tuiter/package.json
+26 verbose from cache /home/iuthisaam/projects/chat/package.json
+27 verbose readDependencies using package.json deps
+28 verbose cache add [ 'redisstore', null ]
+29 silly cache add name=undefined spec="redisstore" args=["redisstore",null]
+30 verbose parsed url { pathname: 'redisstore',
+30 verbose parsed url   path: 'redisstore',
+30 verbose parsed url   href: 'redisstore' }
+31 silly lockFile a1bbeaf9-redisstore redisstore
+32 verbose lock redisstore /home/iuthisaam/.npm/a1bbeaf9-redisstore.lock
+33 silly lockFile a1bbeaf9-redisstore redisstore
+34 verbose addNamed [ 'redisstore', '' ]
+35 verbose addNamed [ null, '' ]
+36 silly lockFile daa856d1-redisstore redisstore@
+37 verbose lock redisstore@ /home/iuthisaam/.npm/daa856d1-redisstore.lock
+38 silly addNameRange { name: 'redisstore', range: '', hasData: false }
+39 verbose url raw redisstore
+40 verbose url resolving [ 'https://registry.npmjs.org/', './redisstore' ]
+41 verbose url resolved https://registry.npmjs.org/redisstore
+42 info trying registry request attempt 1 at 12:44:11
+43 http GET https://registry.npmjs.org/redisstore
+44 http 404 https://registry.npmjs.org/redisstore
+45 silly registry.get cb [ 404,
+45 silly registry.get   { server: 'CouchDB/1.2.1 (Erlang OTP/R15B03)',
+45 silly registry.get     date: 'Sat, 02 Mar 2013 07:44:14 GMT',
+45 silly registry.get     'content-type': 'application/json',
+45 silly registry.get     'content-length': '52',
+45 silly registry.get     'cache-control': 'must-revalidate' } ]
+46 silly lockFile daa856d1-redisstore redisstore@
+47 error 404 'redisstore' is not in the npm registry.
+47 error 404 You should bug the author to publish it
+47 error 404
+47 error 404 Note that you can also install from a
+47 error 404 tarball, folder, or http url, or git url.
+48 error System Linux 3.5.0-17-generic
+49 error command "/usr/local/bin/node" "/usr/local/bin/npm" "install" "--save" "redisstore"
+50 error cwd /home/iuthisaam/projects/chat
+51 error node -v v0.8.17
+52 error npm -v 1.2.0
+53 error code E404
+54 verbose exit [ 1, true ]

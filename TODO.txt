@@ -1,0 +1,5 @@
+when node instance is closed, the existing socket connections wouldnt be deleted on redis server
+this affects keys "open_connections:[uid]" and "connected". clear this when server restarts
+
+when an invited user create a new account, his account still exists in invitees
+remove the account from every users uninvited_friends list
